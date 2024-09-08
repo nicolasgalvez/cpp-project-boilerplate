@@ -5,6 +5,7 @@
             "type": "shell",
             "command": "g++",
             "args": [
+                "-g",
                 "-std=c++11",
                 "${workspaceFolder}/src/main.cpp",
                 "-o",

@@ -1,0 +1,8 @@
+Name|Rating|Review|Address|HealthDeptScore|DeliveryAvailable
+asfasdfdasf|0|BAD|1234 Fake Street, Pleasant Hill, CA, 94518|F|Y
+Name|1|I kinda like it.|1234 Fake Street, Pleasant Hill, CA, 94518|a|y
+Incomplete Soup|1|Missing Delivery|1234 Fake Street, Pleasant Hill, CA, 94518|a|
+Panucci's™ Pizza|2|Well, It's "Food". Test with a weird char.|12 St., New York, NY, 12334|B|n
+|2|Missing Name|12 St., New York, NY, 12334|B|n
+The Cafe|3|Boy, you were right about the beans...|DVC Way, Pleasant Hill, CA|C|Y
+Big Giant Food|5|YUM!|1234 Fake Street|D|N
