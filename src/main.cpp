@@ -45,7 +45,6 @@ Valdator validateAddress(string address);
 Valdator validateName(string name);
 Valdator validateHealthDeptScore(string healthDeptScore);
 Valdator validateDeliveryAvailable(string deliveryAvailable);
-string parseField(string &line); // Unused
 vector<Restaurant> readRestaurantsFromFile(string filename);
 
 /**
@@ -292,54 +291,6 @@ void outputRestaraunt(const Restaurant &restaurant)
 }
 
 /**
- * Parse a field of a CSV line
- * NOTE: I ended up not using this because I couldn't figure it out, but I figured you might want to see my thought process.
- */
-string parseField(string &line)
-{
-    // fields like Name, Review may have a comma in it
-    // It may also have something like `and the waiter brought us "fresh", or what he called fresh, bread`
-    // At this point, I just realized I should have used a pipe delimiter but I'm a big fan of the sunk cost fallacy
-    int fieldEnd;
-    string field;
-    // Look for the end of the field, which is a double quote followed by a comma
-    fieldEnd = line.find("\",");
-
-    // if ther is not no comma, the file is not formatted correctly and we should just return what we have
-    if (fieldEnd == string::npos)
-    {
-        return line;
-    }
-
-    // A nested quote should hopefully be escaped: \"fresh\", shouldn't be a delimiter
-    // while (line[fieldEnd - 2] == '\\')
-    // {
-    //     fieldEnd = line.find("\",", fieldEnd + 1);
-    // }
-    field = line.substr(1, fieldEnd - 1);
-    cout << field << endl;
-    // check if there is more data and at least 2 characters left
-    // if (fieldEnd + 2 >= line.length())
-    // {
-    //     // If there is more data, remove the field and the comma
-    //     line = line.substr(fieldEnd + 2);
-    //     return field;
-    // }
-    // // Maybe it's the end of the line or file
-    // if (fieldEnd + 1 >= line.length())
-    // {
-    //     line = line.substr(fieldEnd + 1);
-    //     return field;
-    // }
-    // else
-    // {
-    //     // If there is no more data, remove the field
-    //     line = line.substr(fieldEnd);
-    // }
-    return field;
-}
-
-/**
  * Function to read a pipe seprerated file with one restaurant per line
  * Format: Name|Rating|Review|Address|HealthDeptScore|DeliveryAvailable
  *
@@ -376,6 +327,8 @@ vector<Restaurant> readRestaurantsFromFile(string filename)
         getline(ss, address, '|');
         getline(ss, healthScore, '|');
         getline(ss, deliveryAvailableStr, '|');
+
+        // Validate each field. I dislike how I basically copied this from the interactive function.
         Valdator nameValidator = validateName(restaurant.name);
         if (!nameValidator.isValid)
         {
@@ -407,8 +360,7 @@ vector<Restaurant> readRestaurantsFromFile(string filename)
             continue;
         }
 
-        Valdator ratingValidator;
-        ratingValidator = validateRating(ratingStr);
+        Valdator ratingValidator = validateRating(ratingStr);
         if (!ratingValidator.isValid)
         {
             cout << "Error on line " << lineCount << ": " << ratingValidator.message << endl;
@@ -418,7 +370,7 @@ vector<Restaurant> readRestaurantsFromFile(string filename)
         restaurant.rating = stoi(ratingStr); // Convert rating from string to int
         restaurant.review = review;
         restaurant.address = address;
-        restaurant.healthDeptScore = healthScore[0];                                                 // First character of the string
+        restaurant.healthDeptScore = healthScore[0];                                                 // Convert to char
         restaurant.deliveryAvailable = (deliveryAvailableStr == "Y" || deliveryAvailableStr == "y"); // Convert to boolean
 
         // Add to the vector of restaurants
@@ -481,14 +433,14 @@ int main(int argc, char *argv[])
     }
     else
     {
-        cout << endl << "Restaurants:" << endl;
+        cout << endl
+             << "Restaurants:" << endl;
         cout << setfill('-') << setw(20) << "" << endl
              << endl
              << setfill(' ');
     }
     for (Restaurant restaurant : restaurants)
     {
-
         outputRestaraunt(restaurant);
     }
 }
