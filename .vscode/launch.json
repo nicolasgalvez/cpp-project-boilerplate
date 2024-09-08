@@ -1,0 +1,46 @@
+{
+    "configurations": [
+        
+        {
+            "name": "C/C++: clang++ build and debug main.cpp",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/main",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: clang++ build main.cpp",
+            "targetArchitecture": "x86_64",
+            "logging": {
+                "moduleLoad": false,
+                "programOutput": true,
+                "engineLogging": false
+            },
+            "showDisplayString": false,
+        },
+        {
+            "name": "C/C++: clang++ build and debug active file",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/build/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}/build",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: clang++ build active file",
+            "targetArchitecture": "x86_64",
+            "logging": {
+                "moduleLoad": false,
+                "programOutput": true,
+                "engineLogging": false
+            },
+            "showDisplayString": false,
+        }
+    ],
+    "version": "2.0.0"
+}
