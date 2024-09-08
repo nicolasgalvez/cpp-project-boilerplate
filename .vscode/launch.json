@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "C/C++: clang++ build and debug main.cpp",
+            "name": "Build and debug main.cpp",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/main",
@@ -24,12 +24,13 @@
             "name": "Debug Tests",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/tests/test_main",
+            "program": "${workspaceFolder}/build/test_main",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": false,
+            "targetArchitecture": "x86_64",
             "MIMode": "lldb",
             "preLaunchTask": "Build Tests",
             "logging": {

@@ -6,9 +6,9 @@
             "command": "g++",
             "args": [
                 "-std=c++11",
+                "${workspaceFolder}/src/main.cpp",
                 "-o",
-                "${workspaceFolder}/main",
-                "${workspaceFolder}/src/main.cpp"
+                "${workspaceFolder}/build/main"
             ],
             "group": {
                 "kind": "build",
@@ -33,7 +33,7 @@
                 "${workspaceFolder}/external/googletest/googletest/src/gtest-all.cc",
                 "${workspaceFolder}/tests/test_main.cpp",
                 "-o",
-                "${workspaceFolder}/tests/test_main"
+                "${workspaceFolder}/build/test_main"
             ],
             "group": {
                 "kind": "build",
@@ -47,7 +47,7 @@
         {
             "label": "Run Tests",
             "type": "shell",
-            "command": "${workspaceFolder}/tests/test_main",
+            "command": "${workspaceFolder}/build/test_main",
             "group": {
                 "kind": "test",
                 "isDefault": false

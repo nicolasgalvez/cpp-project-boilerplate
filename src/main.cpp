@@ -21,8 +21,10 @@ using namespace std;
 int main()
 {
 
-    vector<string> msg{"Hello", "C++", "World", "from", "VS Code", "and the C++ extension!"};
-    msg.push_back("This is a new line");
+    vector<string> msg{"Hello", "C++", "World", "from", "VS Code", "and the C++ extefnsion!"};
+    msg.push_back("This is a new linef");
+    msg.push_back("This is a new linef");
+    msg.push_back("This is a new linef");
     for (const string &word : msg)
     {
         cout << word << " ";
