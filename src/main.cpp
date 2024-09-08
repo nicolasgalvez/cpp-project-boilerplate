@@ -4,7 +4,7 @@
  * Author: Nick Galvez
  * Lab: TODO
  * Class: COMSC-210
- * 
+ *
  */
 
 #include <iostream>
@@ -15,7 +15,7 @@ using namespace std;
 
 /**
  * Main function - entry point of the program.
- * 
+ *
  * @return 0 for success
  */
 int main()
