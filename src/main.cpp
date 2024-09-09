@@ -15,7 +15,7 @@
  * At the end of your program, output a well-formatted table that uses cout manipulators for column alignment. Output the vector's contents, showing the R/G/B values for each color in the vector.
  * @see https://en.cppreference.com/w/cpp/io/manip
  * @see https://vorbrodt.blog/2019/03/21/ansi-escape-codes/
- * 
+ *
  */
 
 #include <iostream>
@@ -38,45 +38,57 @@ void bgColor(const Color &color)
     cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
 }
 
-void bgReset(const Color &color)
+void bgReset()
 {
     cout << "\033[49m";
 }
 
+void textColor(const Color &color)
+{
+    if (color.red < 128 && color.green < 128 && color.blue < 128)
+    {
+        cout << "\033[38;2;255;255;255m";
+    }
+    else
+    {
+        cout << "\033[38;2;0;0;0m";
+    }
+}
+
 /**
- * Function to print a line of colors
+ * Function to print a color as a swatch
  *
  * @param Color restaurant
  */
 void outputColor(const Color &color)
 {
-        // set ansi color that matches the current color
-        cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+    // set ansi color that matches the current color
+    cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
 
-        // If the color is too dark, set the text color to white
-        if(color.red < 128 && color.green < 128 && color.blue < 128)
-        {
-            cout << "\033[38;2;255;255;255m";
-        }
-        else
-        {
-            cout << "\033[38;2;0;0;0m";
-        }
-        // print the color
+    // If the color is too dark, set the text color to white
+    if (color.red < 128 && color.green < 128 && color.blue < 128)
+    {
+        cout << "\033[38;2;255;255;255m";
+    }
+    else
+    {
+        cout << "\033[38;2;0;0;0m";
+    }
+    // print the color
 
     cout << " " << setw(7) << left << "Red:" << setw(4) << color.red;
-    cout << "\033[49m" << endl;
+    bgReset(); // if there was a way to pass the cout as a return, so I could something like bgReset() << endl; this might make more sense.
+    cout << endl;
     cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
     cout << " " << setw(7) << left << "Green:" << setw(4) << color.green;
+    cout << "\033[49m" << endl;
+    cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+    cout << " " << setw(7) << left << "Blue:" << setw(4) << color.blue;
+    // reset the color
+    cout << "\033[0m" << endl;
     // reset the background color
-        cout << "\033[49m" << endl;
-        cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
-    cout << " " << setw(7) << left  << "Blue:" << setw(4) << color.blue;
-            // reset the color
-        cout << "\033[0m"  << endl;
-        // reset the background color
-        cout << "\033[49m";
-        
+    cout << "\033[49m";
+
     cout << endl;
 }
 
@@ -93,7 +105,7 @@ int main(int argc, char *argv[])
     vector<Color> Colors;
     int n = arc4random() % 25 + 25;
     Color temp;
-    for(int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
     {
         temp.red = arc4random() % 256;
         temp.green = arc4random() % 256;
@@ -102,13 +114,13 @@ int main(int argc, char *argv[])
     }
     cout << "Number of colors: " << n << endl;
     cout << "R\tG\tB" << endl;
-    for(int i = 0; i < Colors.size(); i++)
+    for (int i = 0; i < Colors.size(); i++)
     {
         // set ansi color that matches the current color
         cout << "\033[48;2;" << Colors[i].red << ";" << Colors[i].green << ";" << Colors[i].blue << "m";
 
         // If the color is too dark, set the text color to white
-        if(Colors[i].red < 128 && Colors[i].green < 128 && Colors[i].blue < 128)
+        if (Colors[i].red < 128 && Colors[i].green < 128 && Colors[i].blue < 128)
         {
             cout << "\033[38;2;255;255;255m";
         }
@@ -124,9 +136,9 @@ int main(int argc, char *argv[])
         cout << "\033[49m";
         cout << endl;
     }
-      for(int i = 0; i < Colors.size(); i++)
+    for (int i = 0; i < Colors.size(); i++)
     {
-        outputColor(Colors[i] );
+        outputColor(Colors[i]);
     }
 
     return 0;
