@@ -33,17 +33,50 @@ struct Color
     int blue;
 };
 
+void bgColor(const Color &color)
+{
+    cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+}
+
+void bgReset(const Color &color)
+{
+    cout << "\033[49m";
+}
 
 /**
  * Function to print a line of colors
  *
  * @param Color restaurant
  */
-void outputRestaraunt(const Color &color)
+void outputColor(const Color &color)
 {
-    cout << setw(10) << left << "Name:" << color.red << endl;
-    cout << setw(10) << left << "Address:" << color.green << endl;
-    cout << setw(10) << left << "Rating:" << color.blue << endl;
+        // set ansi color that matches the current color
+        cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+
+        // If the color is too dark, set the text color to white
+        if(color.red < 128 && color.green < 128 && color.blue < 128)
+        {
+            cout << "\033[38;2;255;255;255m";
+        }
+        else
+        {
+            cout << "\033[38;2;0;0;0m";
+        }
+        // print the color
+
+    cout << " " << setw(7) << left << "Red:" << setw(4) << color.red;
+    cout << "\033[49m" << endl;
+    cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+    cout << " " << setw(7) << left << "Green:" << setw(4) << color.green;
+    // reset the background color
+        cout << "\033[49m" << endl;
+        cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+    cout << " " << setw(7) << left  << "Blue:" << setw(4) << color.blue;
+            // reset the color
+        cout << "\033[0m"  << endl;
+        // reset the background color
+        cout << "\033[49m";
+        
     cout << endl;
 }
 
@@ -59,9 +92,9 @@ int main(int argc, char *argv[])
 {
     vector<Color> Colors;
     int n = arc4random() % 25 + 25;
+    Color temp;
     for(int i = 0; i < n; i++)
     {
-        Color temp;
         temp.red = arc4random() % 256;
         temp.green = arc4random() % 256;
         temp.blue = arc4random() % 256;
@@ -91,5 +124,10 @@ int main(int argc, char *argv[])
         cout << "\033[49m";
         cout << endl;
     }
+      for(int i = 0; i < Colors.size(); i++)
+    {
+        outputColor(Colors[i] );
+    }
+
     return 0;
 }
