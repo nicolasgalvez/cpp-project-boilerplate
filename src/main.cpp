@@ -28,7 +28,7 @@ using namespace std;
 
 /**
  * Struct to hold the color values
- * 
+ *
  * @param int red
  * @param int green
  * @param int blue
@@ -42,7 +42,7 @@ struct Color
 
 /**
  * Function to set the background color
- * 
+ *
  * @param Color color
  * @return void
  */
@@ -53,7 +53,7 @@ void bgColor(const Color &color)
 
 /**
  * Function to reset the colors
- * 
+ *
  * @return void
  */
 void resetColor()
@@ -63,7 +63,7 @@ void resetColor()
 
 /**
  * Function to set the text to white or black depending on the background color
- * 
+ *
  * @param Color color
  * @return void
  */
@@ -82,12 +82,13 @@ void textColor(const Color &color)
 /**
  * Function to print a color as a swatch
  *
- * @param Color restaurant
+ * @param Color color
  */
 void outputColor(const Color &color)
 {
     // set ansi color that matches the current color
-    cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+    bgColor(color);
+    textColor(color);
 
     // If the color is too dark, set the text color to white
     if (color.red < 128 && color.green < 128 && color.blue < 128)
@@ -99,61 +100,53 @@ void outputColor(const Color &color)
         cout << "\033[38;2;0;0;0m";
     }
     // print the color
-
     cout << " " << setw(7) << left << "Red:" << setw(4) << color.red;
     resetColor(); // if there was a way to pass the cout as a return, so I could something like bgReset() << endl; this might make more sense.
     cout << endl;
-    cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+    textColor(color);
+    bgColor(color);
     cout << " " << setw(7) << left << "Green:" << setw(4) << color.green;
     cout << "\033[49m" << endl;
-    cout << "\033[48;2;" << color.red << ";" << color.green << ";" << color.blue << "m";
+    textColor(color);
+    bgColor(color);
     cout << " " << setw(7) << left << "Blue:" << setw(4) << color.blue;
     // reset the color
-    cout << "\033[0m" << endl;
-    // reset the background color
-    cout << "\033[49m";
+    resetColor();
 
     cout << endl;
 }
 
 /**
  * Main function - prints a table of colors
- *
- * @param int argc
- * @return 0 for success
  */
-int main(int argc, char *argv[])
+int main()
 {
+    vector<Color> Colors;
+    int n = arc4random() % 25 + 25;
+    Color temporary;
     bool ansiColors = false;
     bool swatch = false;
 
-
-        cout << "Would you like some ANSI with your colors? (y/n): ";
-        char input;
+    // Start interaction
+    cout << "Would you like some ANSI with your colors? (y/n): ";
+    char input;
+    cin >> input;
+    if (input == 'y' || input == 'Y')
+    {
+        ansiColors = true;
+    }
+    if (ansiColors)
+    {
+        cout << "ANSI colors enabled" << endl;
+        cout << "Would you like swatches instead of a table (y/n): ";
         cin >> input;
-        if(input == 'y' || input == 'Y')
+        if (input == 'y' || input == 'Y')
         {
-            ansiColors = true;
+            swatch = true;
         }
-        if(ansiColors)
-        {
-            cout << "ANSI colors enabled" << endl;
-            cout << "Would you like swatches instead of a table (y/n): ";
-            cin >> input;
-            if(input == 'y' || input == 'Y')
-            {
-                swatch = true;
-            }
-        }
+    }
 
-
-
-
-    vector<Color> Colors;
-    int n = arc4random() % 25 + 25;
-    
-    // Set temporary colors. Use temporary because color tempature is a thing.
-    Color temporary;
+    // Generate the colors
     for (int i = 0; i < n; i++)
     {
         temporary.red = arc4random() % 256;
@@ -161,37 +154,42 @@ int main(int argc, char *argv[])
         temporary.blue = arc4random() % 256;
         Colors.push_back(temporary);
     }
+
+    // Output the header
     cout << "Number of colors: " << n << endl;
-    cout  << left  << " " << setw(5)  << "R" << setw(5) << "G"  << setw(4) << "B" << endl;
-    
-    if(swatch)
+    if (!swatch) {
+        cout << left << " " << setw(5) << "R" << setw(5) << "G" << setw(4) << "B" << endl;
+    }
+
+    // Output the colors
+    if (swatch)
     {
         for (int i = 0; i < Colors.size(); i++)
         {
             outputColor(Colors[i]);
         }
-    } else if(ansiColors)
+    }
+    else if (ansiColors)
     {
         for (int i = 0; i < Colors.size(); i++)
         {
             // set ansi color that matches the current color
             bgColor(Colors[i]);
-
             // If the color is too dark, set the text color to white
             textColor(Colors[i]);
-
-            cout  << left << " "  << setw(5) << Colors[i].red << setw(5) << Colors[i].green  << setw(4) << Colors[i].blue;
+            cout << left << " " << setw(5) << Colors[i].red << setw(5) << Colors[i].green << setw(4) << Colors[i].blue;
             // reset the color and background
             cout << "\033[0m" << "\033[49m";
             cout << endl;
         }
-    } else
-    for (int i = 0; i < Colors.size(); i++)
-    {
-        cout  << left << " "  << setw(5) << Colors[i].red << setw(5) << Colors[i].green  << setw(4) << Colors[i].blue;
-        cout << endl;
     }
-
+    else
+    // Must be on Windows...
+        for (int i = 0; i < Colors.size(); i++)
+        {
+            cout << left << " " << setw(5) << Colors[i].red << setw(5) << Colors[i].green << setw(4) << Colors[i].blue;
+            cout << endl;
+        }
 
     return 0;
 }
