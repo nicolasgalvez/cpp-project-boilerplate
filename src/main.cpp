@@ -197,8 +197,8 @@ int main()
         {36, 37, 38, 39, 40}
     };
 
-    // Comment 10: I wanted to use a 3d array of test data but it seemed like that was against the rules of the assignment.
-    // Well, I actually was thinking of doing a vector of structs like I would make an object or hash array in PHP.
+    // Comment 10: In PHP or JS, I would probably automate the tests by using an object of test data. 
+    // In C++,v I'm wondering if a vector of this struct would be equivalent?
     // struct TestArray {
     //     int rows;
     //     int cols;
@@ -208,12 +208,13 @@ int main()
     //     int highestInRow;
     //     int lowestInRow;`
     // };
-    // Maybe that's not a good idea, I'm still getting used to C++ and what is efficient. Hence why I'm in the class!
+    // I'm still getting used to C++ and what is efficient. Hence why I'm in the class!
 
     cout << "The total of the array elements is "
          << getTotal(testArray, ROWS)
          << endl;
-    // I changed the output since the average of a single element doesn't make sense.
+         
+    // I changed the output because I couldn't see how you could have an average of a single element. 
     cout << "The average value of the array elements is "
          << fixed << setprecision(1) // Comment: Set precision to 1 decimal place to match
          << getAverage(testArray, ROWS)
@@ -234,8 +235,15 @@ int main()
     cout << "The lowest value in row 1 is "
          << getLowestInRow(testArray, 1)
          << endl;
-    // I ran this on my macbook, I don't have a VM set up on the lappy since it belongs to my work.
+    // This fails on my Mac. I'm installing a VM with windows though.
     // I tried to add a try/catch block, but I guess system doesn't throw an exception if the command fails.
-    system("PAUSE");
+    // Ok so this is weird, I figured the result would be false if the command failed. But it's not -1, it's not 1 like it would be in bash.
+    // I'll ask about it in my PDF.
+    int result;
+    result = system("PAUSE");
+    if(result == -1) {
+        cout << "Press any key to continue . . .";
+        cin.get();
+    }
     return 0;
 }
