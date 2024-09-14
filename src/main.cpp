@@ -1,446 +1,241 @@
 /**
- * Title: Lab 3: Restaurant Struct
+ * Title: Lab 1: Programming Assignment 1
  * Description: Write a program that manipulates data about restaurants and leverages struct variables.
  * Author: Nick Galvez
- * Lab: 3
- * Class: COMSC-210
+ * Lab: 1
+ * Class: COMSC-260
  */
 
 /**
- * Requirements:
- * Create a struct Restaurant with at least five attributes of varying data types (e.g., a string for the restaurant's address).
- * Write a function that will create a temporary struct, receive user input via the console to populate the struct's data, and returns that struct to the main program.
- * Write another function that receives a struct object as its formal parameter and outputs the struct's data in a nice, presentable format. The function is void so it returns nothing.
- * Exercise this struct by creating at least four Restaurant objects and using your functions to manipulate them.
- */
+Requirements:
+
+DONE: Your program should have at least ten (10) different detailed comments
+explaining the different parts of your program. 
+DONE: Each individual comment should be, at a minimum, a sentence explaining a particular part of your code. 
+You should make each comment as detailed as necessary to fully explain your
+code. 
+DONE: You should also number each of your comments (i.e., comment 1,
+comment 2, etc.).
+
+DONE: You should submit screenshots of at least five (5) different sample runs of
+your program. 
+DONE: Each sample run needs to use a different 2D array, and your
+sample runs should NOT be the same as the sample runs that are used in
+this write-up for the assignment. 
+
+DONE: You should also number each of your
+sample runs (i.e., sample run 1, sample run 2, etc.). Each of your sample
+runs should be similar to this format:
+int testArray[ROWS][COLS] = {{1, 2, 3, 4, 5},
+                             {6, 7, 8, 9, 10},
+                             {11, 12, 13, 14, 15},
+                             {16, 17, 18, 19, 20}};
+*/
 
 #include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
+#include <cstdlib>
+#include <iomanip>
 
 using namespace std;
 
-struct Valdator
-{
-    bool isValid;
-    string message;
-};
+// Comment 1: Why not define ROWS here as well?
 
-struct Restaurant
-{
-    int rating;
-    string review;
-    string address;
-    string name;
-    char healthDeptScore;
-    bool deliveryAvailable;
-};
+const int COLS = 5;
 
-void outputRestaraunt(const Restaurant &);
-Valdator validateRating(string rating);
-Valdator validateReview(string review);
-Valdator validateAddress(string address);
-Valdator validateName(string name);
-Valdator validateHealthDeptScore(string healthDeptScore);
-Valdator validateDeliveryAvailable(string deliveryAvailable);
-vector<Restaurant> readRestaurantsFromFile(string filename);
+int getTotal(int[][COLS], int);
+double getAverage(int[][COLS], int);
+int getRowTotal(int[][COLS], int);
+int getColumnTotal(int[][COLS], int, int);
+int getHighestInRow(int[][COLS], int);
+int getLowestInRow(int[][COLS], int);
 
 /**
- * Function to validate the rating
+ * Get total value of the array elements
  *
- * @param int rating
- * @return Valdator
+ * @param array
+ * @param rows
+ * @return int
  */
-Valdator validateRating(string rating)
+int getTotal(int array[][COLS], int rows)
 {
-    Valdator validator;
-    validator.isValid = true;
-    // check if rating is a number
-    for (char c : rating)
+    int total = 0;
+    // Comment 2: Loop over the rows and columns to get the total
+    for (int i = 0; i < COLS; i++)
     {
-        if (!isdigit(c))
-        {
-            validator.isValid = false;
-            validator.message = "Rating must be a number.";
-            // cout << rating << endl;
-            return validator;
-        }
+        // call getColumnTotal() to get the total of the column
+        total += getColumnTotal(array, i, rows);
     }
-    // convert to int
-    int ratingInt = stoi(rating);
-    if (ratingInt < 0 || ratingInt > 5)
-    {
-        validator.isValid = false;
-        validator.message = "Rating must be between 0 and 5.";
-    }
-    return validator;
+
+    return total;
 }
 
 /**
- * Function to validate the review
+ * Returns the average of the array
  *
- * @param string review
- * @return Valdator
+ * @param array
+ * @param rows
+ * @return double
  */
-Valdator validateReview(string review)
+double getAverage(int array[][COLS], int rows)
 {
-    Valdator validator;
-    validator.isValid = true;
-    if (review.empty())
+    double average = 0;
+    double total = 0;
+    // Comment 3: After I did this again, I realized I could just call getTotal(). Oh well.
+    for (int i = 0; i < rows; i++)
     {
-        validator.isValid = false;
-        validator.message = "Review cannot be empty.";
+        for (int j = 0; j < COLS; j++)
+        {
+            total += array[i][j];
+        }
     }
-    return validator;
+    // Comment 4: I was stumped here until I remembered I have to cast the ints as doubles.
+    // I didn't just return the result so I would have a place to put a breakpoint.
+    average = total / static_cast<double>(rows * COLS);
+    return average;
 }
 
 /**
- * Function to validate the address
+ * Returns the total of a row
  *
- * @param string address
- * @return Valdator
+ * @param array
+ * @param rowToTotal
+ * @return int
  */
-Valdator validateAddress(string address)
+int getRowTotal(int array[][COLS], int rowToTotal)
 {
-    Valdator validator;
-    validator.isValid = true;
-    if (address.empty())
+    int total = 0;
+    // Comment 5: Loop over the columns to get the total
+    for (int i = 0; i < COLS; i++)
     {
-        validator.isValid = false;
-        validator.message = "Address cannot be empty.";
+        total += array[rowToTotal][i];
     }
-    return validator;
+
+    return total;
 }
 
 /**
- * Function to validate the name
+ * Returns the total of a column
  *
- * @param string name
- * @return Valdator
+ * @param array
+ * @param colToTotal
+ * @param rows
+ * @return int
  */
-Valdator validateName(string name)
+int getColumnTotal(int array[][COLS], int colToTotal, int rows)
 {
-    Valdator validator;
-    validator.isValid = true;
-    if (name.empty())
+    int total = 0;
+    // Comment 6: Loop over the rows to get the total
+    for (int i = 0; i < rows; i++)
     {
-        validator.isValid = false;
-        validator.message = "Name cannot be empty.";
+        total += array[i][colToTotal];
     }
-    return validator;
+
+    return total;
 }
 
 /**
- * Function to validate the health department score
+ * Returns the highest value in a row
  *
- * @param char healthDeptScore
- * @return Valdator
+ * @param array
+ * @param rowToSearch
+ * @return int
  */
-Valdator validateHealthDeptScore(string healthDeptScore)
+int getHighestInRow(int array[][COLS], int rowToSearch)
 {
-    Valdator validator;
-    validator.isValid = true;
-    // cast as char
-    char healthDeptScoreChar = healthDeptScore[0];
-    healthDeptScoreChar = toupper(healthDeptScoreChar);
-    if (healthDeptScoreChar < 'A' || healthDeptScoreChar > 'F')
+    int highest = array[rowToSearch][0];
+    // Comment 7: Loop over the columns of the specified row
+    for (int i = 1; i < COLS; i++)
     {
-        validator.isValid = false;
-        validator.message = "Health Department Score must be between A and F.";
+        // Comment 8: If the current value is higher than the highest, set the highest to the current value
+        if (array[rowToSearch][i] > highest)
+        {
+            highest = array[rowToSearch][i];
+        }
     }
-    return validator;
+
+    return highest;
 }
 
 /**
- * Function to validate the delivery available, must be 'Y' or 'N'
+ * Returns the lowest value in a row
  *
- * @param bool deliveryAvailable
- * @return Valdator
+ * @param array
+ * @param rowToSearch
+ * @return int
  */
-Valdator validateDeliveryAvailable(string deliveryAvailable)
+int getLowestInRow(int array[][COLS], int rowToSearch)
 {
-    Valdator validator;
-    validator.isValid = true;
-    // cast as char
-    char deliveryAvailableChar = deliveryAvailable[0];
-    deliveryAvailableChar = toupper(deliveryAvailableChar);
-    if (deliveryAvailableChar != 'Y' && deliveryAvailableChar != 'N')
+    int lowest = array[rowToSearch][0];
+    // Comment 9: Just to the opposite of the getHighestInRow() function
+    for (int i = 1; i < COLS; i++)
     {
-        validator.isValid = false;
-        validator.message = "Delivery Available must be 'Y' or 'N'.";
+        if (array[rowToSearch][i] < lowest)
+        {
+            lowest = array[rowToSearch][i];
+        }
     }
-    return validator;
+
+    return lowest;
 }
 
 /**
- * Function to create a restaurant object from user input
+ * Main function
  *
- * @return Restaurant
  */
-Restaurant createRestaurantInteractive()
+int main()
 {
-    // Temporary restaurant object
-    Restaurant restaurant;
-    // cin value. I'm not sure if there is a disadvantage to using the same variable for all input?
-    string entry;
-    // Seems like the console just cuts off extra characters if you enter more than one character
-    char healthDeptScore;
-    char deliveryAvailable;
 
-    cout << "Enter the restaurant's name: ";
-    cin.ignore();
-    getline(cin, entry);
-    Valdator nameValidator = validateName(entry);
-    while (!nameValidator.isValid)
-    {
-        cout << nameValidator.message << endl;
-        cout << "Enter the restaurant's name: ";
-        getline(cin, entry);
-        nameValidator = validateName(entry);
-    }
-    restaurant.name = entry;
+    const int ROWS = 8;
+    int testArray[ROWS][COLS] = {
+        {1, 2, 3, 4, 5},
+        {6, 7, 8, 9, 10},
+        {11, 12, 13, 14, 15},
+        {16, 17, 18, 19, 20},
+        {21, 22, 23, 24, 25},
+        {26, 27, 28, 29, 30},
+        {31, 32, 33, 34, 35},
+        {36, 37, 38, 39, 40}
+    };
 
-    cout << "Enter the restaurant's rating (0-5): ";
-    getline(cin, entry);
-    Valdator ratingValidator = validateRating(entry);
-    while (!ratingValidator.isValid)
-    {
-        cout << ratingValidator.message << endl;
-        cout << "Enter the restaurant's rating (0-5): ";
-        getline(cin, entry);
-        ratingValidator = validateRating(entry);
-    }
-    restaurant.rating = stoi(entry);
+    // Comment 10: I wanted to use a 3d array of test data but it seemed like that was against the rules of the assignment.
+    // Well, I actually was thinking of doing a vector of structs like I would make an object or hash array in PHP.
+    // struct TestArray {
+    //     int rows;
+    //     int cols;
+    //     int data[rows][cols];
+    //     int totalOfRow;
+    //     int totalOfCol;
+    //     int highestInRow;
+    //     int lowestInRow;`
+    // };
+    // Maybe that's not a good idea, I'm still getting used to C++ and what is efficient. Hence why I'm in the class!
 
-    cout << "Enter the restaurant's review: ";
-    getline(cin, entry);
-    Valdator reviewValidator = validateReview(entry);
-    while (!reviewValidator.isValid)
-    {
-        cout << reviewValidator.message << endl;
-        cout << "Enter the restaurant's review: ";
-        getline(cin, entry);
-        reviewValidator = validateReview(entry);
-    }
-    restaurant.review = entry;
+    cout << "The total of the array elements is "
+         << getTotal(testArray, ROWS)
+         << endl;
+    // I changed the output since the average of a single element doesn't make sense.
+    cout << "The average value of the array elements is "
+         << fixed << setprecision(1) // Comment: Set precision to 1 decimal place to match
+         << getAverage(testArray, ROWS)
+         << endl;
 
-    cout << "Enter the restaurant's address: ";
-    getline(cin, entry);
-    Valdator addressValidator = validateAddress(entry);
-    while (!addressValidator.isValid)
-    {
-        cout << addressValidator.message << endl;
-        cout << "Enter the restaurant's address: ";
-        getline(cin, entry);
-        addressValidator = validateAddress(entry);
-    }
-    restaurant.address = entry;
+    cout << "The total of row 0 is "
+         << getRowTotal(testArray, 0)
+         << endl;
 
-    cout << "Enter the restaurant's health department score (A-F): ";
-    cin >> entry;
-    Valdator healthDeptScoreValidator = validateHealthDeptScore(entry);
-    while (!healthDeptScoreValidator.isValid)
-    {
-        cout << healthDeptScoreValidator.message << endl;
-        cout << "Enter the restaurant's health department score (A-F): ";
-        cin >> entry;
-        healthDeptScoreValidator = validateHealthDeptScore(entry);
-    }
-    restaurant.healthDeptScore = healthDeptScore;
+    cout << "The total of col 3 is "
+         << getColumnTotal(testArray, 3, ROWS)
+         << endl;
 
-    if (healthDeptScore == 'F' && restaurant.rating > 0)
-    {
-        cout << "You sure about that rating, pal? More like a ratting, am I right?" << endl;
-    }
+    cout << "The highest value in row 7 is "
+         << getHighestInRow(testArray, 7)
+         << endl;
 
-    cout << "Is delivery available? (Y/N): ";
-    cin >> entry;
-
-    deliveryAvailable = toupper(static_cast<char>(entry[0]));
-    Valdator deliveryAvailableValidator = validateDeliveryAvailable(entry);
-    while (!deliveryAvailableValidator.isValid)
-    {
-        cout << deliveryAvailableValidator.message << endl;
-        cout << "Is delivery available? (Y/N): ";
-        cin >> entry;
-        deliveryAvailable = toupper(deliveryAvailable);
-        deliveryAvailableValidator = validateDeliveryAvailable(entry);
-    }
-    // convert to boolean
-
-    restaurant.deliveryAvailable = deliveryAvailable ? true : false;
-
-    return restaurant;
-}
-
-/**
- * Function to print the restaurant object
- *
- * @param Restaurant restaurant
- */
-void outputRestaraunt(const Restaurant &restaurant)
-{
-    cout << setw(10) << left << "Name:" << restaurant.name << endl;
-    cout << setw(10) << left << "Address:" << restaurant.address << endl;
-    cout << setw(10) << left << "Rating:" << restaurant.rating << endl;
-    cout << setw(10) << left << "Review:" << restaurant.review << endl;
-    cout << setw(10) << left << "Delivery:" << (restaurant.deliveryAvailable ? "Yes" : "No") << endl;
-    cout << endl;
-}
-
-/**
- * Function to read a pipe seprerated file with one restaurant per line
- * Format: Name|Rating|Review|Address|HealthDeptScore|DeliveryAvailable
- *
- * @param string filename
- * @return vector<Restaurant>
- */
-vector<Restaurant> readRestaurantsFromFile(string filename)
-{
-    vector<Restaurant> restaurants;
-    // check for valid file
-    ifstream file(filename);
-    if (!file)
-    {
-        cout << "File not found." << endl;
-        return restaurants;
-    }
-
-    string line;
-    int lineCount = 0;
-    // Read each line of the file
-    while (getline(file, line))
-    {
-        lineCount++;
-        // cout << "Processing line " << lineCount << endl; // Debug
-        // Create a temp Restaurant object
-        Restaurant restaurant;
-        stringstream ss(line);
-        string ratingStr, review, address, healthScore, deliveryAvailableStr;
-
-        // Parse each field using the pipe '|' as a delimiter
-        getline(ss, restaurant.name, '|');
-        getline(ss, ratingStr, '|');
-        getline(ss, review, '|');
-        getline(ss, address, '|');
-        getline(ss, healthScore, '|');
-        getline(ss, deliveryAvailableStr, '|');
-
-        // Validate each field. I dislike how I basically copied this from the interactive function.
-        Valdator nameValidator = validateName(restaurant.name);
-        if (!nameValidator.isValid)
-        {
-            cout << "Error on line " << lineCount << ": " << nameValidator.message << endl;
-            continue;
-        }
-        Valdator addressValidator = validateAddress(address);
-        if (!addressValidator.isValid)
-        {
-            cout << "Error on line " << lineCount << ": " << addressValidator.message << endl;
-            continue;
-        }
-        Valdator reviewValidator = validateReview(review);
-        if (!reviewValidator.isValid)
-        {
-            cout << "Error on line " << lineCount << ": " << reviewValidator.message << endl;
-            continue;
-        }
-        Valdator healthDeptScoreValidator = validateHealthDeptScore(healthScore);
-        if (!healthDeptScoreValidator.isValid)
-        {
-            cout << "Error on line " << lineCount << ": " << healthDeptScoreValidator.message << endl;
-            continue;
-        }
-        Valdator deliveryAvailableValidator = validateDeliveryAvailable(deliveryAvailableStr);
-        if (!deliveryAvailableValidator.isValid)
-        {
-            cout << "Error on line " << lineCount << ": " << deliveryAvailableValidator.message << endl;
-            continue;
-        }
-
-        Valdator ratingValidator = validateRating(ratingStr);
-        if (!ratingValidator.isValid)
-        {
-            cout << "Error on line " << lineCount << ": " << ratingValidator.message << endl;
-            continue;
-        }
-
-        restaurant.rating = stoi(ratingStr); // Convert rating from string to int
-        restaurant.review = review;
-        restaurant.address = address;
-        restaurant.healthDeptScore = healthScore[0];                                                 // Convert to char
-        restaurant.deliveryAvailable = (deliveryAvailableStr == "Y" || deliveryAvailableStr == "y"); // Convert to boolean
-
-        // Add to the vector of restaurants
-        restaurants.push_back(restaurant);
-    }
-
-    return restaurants;
-}
-
-/**
- * Main function - entry point of the program. Accepts optional path to a file as an argument.
- * If a file is provided, the program will read the file and output the contents.
- * If no file is provided, the program will prompt the user to enter data for a restaurant object.
- *
- * @param int argc
- * @return 0 for success
- */
-int main(int argc, char *argv[])
-{
-    vector<Restaurant> restaurants;
-
-    // Test file:
-    // restaurants = readRestaurantsFromFile("test.csv"); // Doesn't exist, should output "File not found."
-    // restaurants = readRestaurantsFromFile("../src/test.csv"); // Does exist, should output the contents of the file
-    // If a file is provided, read the file and output the contents
-    if (argc > 1)
-    {
-        cout << "Reading file: " << argv[1] << endl;
-
-        // If I specify a binary file, for some reason the validator for rating doesn't work, and stoi will throw an exception
-        try
-        {
-            restaurants = readRestaurantsFromFile(argv[1]);
-        }
-        catch (const std::exception &e)
-        {
-            std::cerr << "Unable to parse file. Got error: " << e.what() << endl;
-        }
-    }
-    // If no file is provided, prompt the user to enter data for a restaurant object
-    else
-    {
-        while (true)
-        {
-            cout << "Would you like to enter a restaurant? (Y/N): ";
-            char entry;
-            cin >> entry;
-            if (entry == 'N' || entry == 'n')
-            {
-                break;
-            }
-            restaurants.push_back(createRestaurantInteractive());
-        }
-    }
-    if (restaurants.size() == 0)
-    {
-        cout << endl
-             << "No restaurants to display." << endl;
-        return 0;
-    }
-    else
-    {
-        cout << endl
-             << "Restaurants:" << endl;
-        cout << setfill('-') << setw(20) << "" << endl
-             << endl
-             << setfill(' ');
-    }
-    for (Restaurant restaurant : restaurants)
-    {
-        outputRestaraunt(restaurant);
-    }
+    cout << "The lowest value in row 1 is "
+         << getLowestInRow(testArray, 1)
+         << endl;
+    // I ran this on my macbook, I don't have a VM set up on the lappy since it belongs to my work.
+    // I tried to add a try/catch block, but I guess system doesn't throw an exception if the command fails.
+    system("PAUSE");
+    return 0;
 }
