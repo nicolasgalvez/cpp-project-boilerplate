@@ -208,12 +208,12 @@ int main()
     //     int highestInRow;
     //     int lowestInRow;`
     // };
-    // I'm still getting used to C++ and what is efficient. Hence why I'm in the class!
+    // I'm still getting used to C++ and what is efficient or common practice.
 
     cout << "The total of the array elements is "
          << getTotal(testArray, ROWS)
          << endl;
-         
+
     // I changed the output because I couldn't see how you could have an average of a single element. 
     cout << "The average value of the array elements is "
          << fixed << setprecision(1) // Comment: Set precision to 1 decimal place to match
