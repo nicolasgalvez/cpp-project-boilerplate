@@ -1,8 +1,8 @@
 /**
- * Title: Lab 6: Dynamic Arrays & Functions I
- * Description: Lab 6: Dynamic Arrays & Functions I
+ * Title: Lab 7: Dynamic Arrays & Functions II
+ * Description: Write a program that will reverse a string array.
  * Author: Nick Galvez
- * Lab: 6
+ * Lab: 7
  * Class: COMSC-210
  *
  */
@@ -11,64 +11,51 @@
 #include <ctime>
 using namespace std;
 
-const int SIZE = 5, MIN = 1, MAX = 10;
+const int SIZE = 5;
 
-int *getRandomArray();
+// Write a function reverse() which receives the array as an argument, reverses the elements, and returns a pointer to the modified array.
+// Is there a difference between string [], string [SIZE], and string a[SIZE]? Is one a better practice?
+string *reverse(string []);
 
 int main()
 {
-    // Using dynamic memory allocation, create an array of doubles of size 5.
-    double *arrayPtr = nullptr;
-    arrayPtr = new double[SIZE];
+    // Stick with the classics.
+    string names[SIZE] = {"Janet", "Jeffe", "Jin", "Joe", "Junio"};
 
-    srand(time(0));
+    cout << "Original array: ";
+    for (size_t i = 0; i < SIZE; i++)
+    {
+        cout << names[i] << " ";
+    }
+    cout << endl
+         << "Reversed: ";
 
-    cout << "DYNAMICALLY ALLOCATED MEMORY\n\n";
-    double *dptr = nullptr;
-    dptr = new double; // "new" returns the address of the newly-created double
-    *dptr = 55.5;
-    cout << "*dptr is " << *dptr << endl;
-    cout << "dptr is " << dptr << endl;
-    delete dptr;
+    // Set up a pointer for the reversed array.
+    string *namesPtr = nullptr;
+    namesPtr = reverse(names);
 
-    cout << "\nDYNAMIC ARRAY\n\n";
-    int *iptr = nullptr;
-    iptr = new int[SIZE];
-
-    for (int i = 0; i < SIZE; i++) // populate array using array subscript
-        iptr[i] = i * i + i + 4;
-    cout << "Outputting dynamic array: ";
-    for (int i = 0; i < SIZE; i++) // output array using pointers
-        cout << *(iptr + i) << " ";
+    for (size_t i = 0; i < SIZE; i++)
+    {
+        cout << namesPtr[i] << " ";
+    }
     cout << endl;
-    delete[] iptr;
 
-    cout << "\nRETURNING POINTERS FROM FUNCTIONS\n\n";
-    int *myRands = nullptr;
-    myRands = getRandomArray();    // function returns a pointer to an array of randoms
-    for (int i = 0; i < SIZE; i++) // output using array nomenclature
-        cout << myRands[i] << " ";
-    delete[] myRands;
+    delete[] namesPtr;
 
     return 0;
 }
 
-int *getRandomArray()
-{
-    int *arr = nullptr;
-    arr = new int[SIZE];
-    for (int i = 0; i < SIZE; i++)
-        arr[i] = rand() % (MAX - MIN + 1) + MIN;
-    return arr;
-}
 /**
- * Data entry for the array:
-    > Element #0: 5.5
-    > Element #1: 2.6
-    > Element #2: 3.4
-    > Element #3: 8.4
-    > Element #4: 9.2
-Data entry complete.
-Outputting array elements: 5.5 2.6 3.4 8.4 9.2
-Sum of values: 29.1
+ * Return a reversed array of strings.
  */
+string *reverse(string a[SIZE])
+{
+    string *ptr = nullptr;
+    ptr = new string[SIZE];
+    // Add the elements to the new array, by counting down from the last.
+    for (size_t i = 0; i < SIZE; i++)
+    {
+        ptr[i] = a[SIZE - i - 1];
+    }
+    return ptr;
+}
