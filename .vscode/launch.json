@@ -12,6 +12,7 @@
             "externalConsole": false,
             "MIMode": "lldb",
             "preLaunchTask": "Build Main",
+            // "targetArchitecture": "arm64",
             // "targetArchitecture": "x86_64",
             "logging": {
                 "moduleLoad": false,
@@ -30,6 +31,7 @@
             "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": false,
+            // "targetArchitecture": "arm64",
             // "targetArchitecture": "x86_64",
             "MIMode": "lldb",
             "preLaunchTask": "Build Tests",
