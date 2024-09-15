@@ -4,5 +4,6 @@
         "*.jsx": "javascriptreact",
         "config": "plaintext",
         "new": "cpp"
-    }
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/clang++"
 }

@@ -13,62 +13,75 @@ using namespace std;
 
 const int SIZE = 5, MIN = 1, MAX = 10;
 
-int *getRandomArray();
+double *getRandomArray();
+void populateArray(double *);
+void outputArray(double *);
+double sumArray(double *);
+
+/**
+ * Write a function that will receive the double array and populate it with values that the user enters via the console.
+ */
+void populateArray(double *a)
+{
+    cout << "Data entry for the array:" << endl;
+    for (size_t i = 0; i < SIZE; i++) // intellisense generated a for loop with size_t instead of int. But it seems to work ok as an array iterator...
+    {
+        cout << "> Element #" << i << ": ";
+        cin >> a[i];
+    }
+    cout << "Data entry complete." << endl;
+}
+/**
+ * Print the array on one line
+ */
+void outputArray(double *a)
+{
+    cout << "Outputting array elements: ";
+    for (size_t i = 0; i < SIZE; i++)
+    {
+        cout << *(a + i) << " ";
+    }
+    cout << endl;
+}
+/**
+ * Sum the array, do not output anything.
+ */
+double sumArray(double *a)
+{
+    double total = 0;
+    for (size_t i = 0; i < SIZE; i++)
+    {
+        total += *(a + i);
+    }
+    return total;
+}
 
 int main()
 {
     // Using dynamic memory allocation, create an array of doubles of size 5.
     double *arrayPtr = nullptr;
     arrayPtr = new double[SIZE];
+    
+    // For testing, uncomment this:
+    // arrayPtr = getRandomArray(); // Test array
 
-    srand(time(0));
-
-    cout << "DYNAMICALLY ALLOCATED MEMORY\n\n";
-    double *dptr = nullptr;
-    dptr = new double; // "new" returns the address of the newly-created double
-    *dptr = 55.5;
-    cout << "*dptr is " << *dptr << endl;
-    cout << "dptr is " << dptr << endl;
-    delete dptr;
-
-    cout << "\nDYNAMIC ARRAY\n\n";
-    int *iptr = nullptr;
-    iptr = new int[SIZE];
-
-    for (int i = 0; i < SIZE; i++) // populate array using array subscript
-        iptr[i] = i * i + i + 4;
-    cout << "Outputting dynamic array: ";
-    for (int i = 0; i < SIZE; i++) // output array using pointers
-        cout << *(iptr + i) << " ";
-    cout << endl;
-    delete[] iptr;
-
-    cout << "\nRETURNING POINTERS FROM FUNCTIONS\n\n";
-    int *myRands = nullptr;
-    myRands = getRandomArray();    // function returns a pointer to an array of randoms
-    for (int i = 0; i < SIZE; i++) // output using array nomenclature
-        cout << myRands[i] << " ";
-    delete[] myRands;
-
+    // ...and comment out the next line:
+    populateArray(arrayPtr);
+    outputArray(arrayPtr);
+    cout << "Sum of values: " << sumArray(arrayPtr) << endl;
+    // Clean it up. Although doesn't all the dynamic memory get deleted when the program ends?
+    delete[] arrayPtr;
     return 0;
 }
 
-int *getRandomArray()
+/**
+ * Generate a random array
+ */
+double *getRandomArray()
 {
-    int *arr = nullptr;
-    arr = new int[SIZE];
+    double *arr = nullptr;
+    arr = new double[SIZE];
     for (int i = 0; i < SIZE; i++)
         arr[i] = rand() % (MAX - MIN + 1) + MIN;
     return arr;
 }
-/**
- * Data entry for the array:
-    > Element #0: 5.5
-    > Element #1: 2.6
-    > Element #2: 3.4
-    > Element #3: 8.4
-    > Element #4: 9.2
-Data entry complete.
-Outputting array elements: 5.5 2.6 3.4 8.4 9.2
-Sum of values: 29.1
- */
