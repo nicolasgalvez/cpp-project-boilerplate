@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.yml": "yaml",
+        "*.jsx": "javascriptreact",
+        "config": "plaintext",
+        "new": "cpp"
+    }
+}
