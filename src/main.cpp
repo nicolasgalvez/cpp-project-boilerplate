@@ -1,33 +1,38 @@
 /**
- * Title: Template Project
- * Description: Setup a template project for future labs.
+ * Title: Lab 5: Pointerify!
+ * Description: This code uses reference variables. Cast the "Pointerify" spell on it by rewriting the code such that it uses pointers.
  * Author: Nick Galvez
- * Lab: TODO
+ * Lab: 5
  * Class: COMSC-210
  *
  */
 
 #include <iostream>
-#include <vector>
-#include <string>
 
 using namespace std;
 
-/**
- * Main function - entry point of the program.
- *
- * @return 0 for success
- */
+void swap(int *, int *, int *); // Change to pointers instead of references.
+
 int main()
 {
+    int x = 5, y = 10, sum;
 
-    vector<string> msg{"Hello", "C++", "World", "from", "VS Code", "and the C++ extefnsion!"};
-    msg.push_back("This is a new linef");
-    msg.push_back("This is a new linef");
-    msg.push_back("This is a new linef");
-    for (const string &word : msg)
-    {
-        cout << word << " ";
-    }
-    cout << endl;
+    cout << "x = " << x << "  | y = " << y << endl;
+
+    cout << "Swapping...\n";
+    swap(&x, &y, &sum);
+    cout << "x = " << x << " | y = " << y << endl;
+    cout << "sum = " << sum << endl;
+    return 0;
+}
+/**
+ * Swaps two numbers and provides a sum.
+ */
+void swap(int *a, int *b, int *sum)
+{
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+    *sum = *a + *b;
 }
