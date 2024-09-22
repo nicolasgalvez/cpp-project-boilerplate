@@ -3,6 +3,10 @@
         "*.yml": "yaml",
         "*.jsx": "javascriptreact",
         "config": "plaintext",
-        "new": "cpp"
+        "new": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "ios": "cpp",
+        "limits": "cpp"
     }
 }
