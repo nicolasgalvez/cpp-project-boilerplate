@@ -8,6 +8,10 @@
  */
 
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <iomanip>
+
 using namespace std;
 
 const int MAX_EVENTS = 3, MAX_BUTTONS = 3, MAX_DURATION = 10;
@@ -78,7 +82,6 @@ void inputButtonCombo(ButtonCombo *eventPointer, int id)
     int i = 0;
     while (i < MAX_BUTTONS)
     {
-
         cout << "Button #" << i + 1 << ": ";
         cin >> eventPointer->buttons[i];
         if (cin.fail())
@@ -89,6 +92,7 @@ void inputButtonCombo(ButtonCombo *eventPointer, int id)
             // However I would like to be able to do this without having to press enter after a bad input.
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             // Make sure we got at least one button before moving on.
+            // A combo implies 2, but I see 1 button + duration as a combo, like long pressing the power button.
             if (i == 0)
             {
                 cout << "No buttons entered. You must have at least 1 button for each event." << endl;
@@ -158,9 +162,30 @@ void displayButtonCombo(ButtonCombo *eventPointer)
     cout << "Name: " << eventPointer->name << endl;
     cout << "ID: " << eventPointer->id << endl;
     for (int i = 0; i < MAX_BUTTONS; i++)
+    {
+        if(eventPointer->buttons[i] == 0) {
+            break;
+        }
         cout << "Button #" << i + 1 << ": "
              << eventPointer->buttons[i] << endl;
-    cout << "Duration: " << eventPointer->duration << "s" << endl;
+    }
+
+    // Output the duration. I don't know how to set precision without using a stringstream. I tried printf but I'm not sure how to convert the types.
+    stringstream durationOutput;
+    durationOutput << "Duration: "; // Why can't I do: stringstream durationOutput << "Duration: "; ?
+    if (eventPointer->duration == 0)
+    {
+        durationOutput << "Any";
+    }
+    else if (eventPointer->duration == 1)
+    {
+        durationOutput << "1 second";
+    }
+    else
+    {
+        durationOutput << setprecision(2) << eventPointer->duration << " seconds";
+    }
+    cout << durationOutput.str() << endl;
     cout << endl
          << endl;
 }
