@@ -29,5 +29,6 @@
         "unordered_map": "cpp",
         "unordered_set": "cpp",
         "filesystem": "cpp"
-    }
+    },
+    "C_Cpp.default.compilerPath": "/Library/Developer/CommandLineTools/usr/bin/clang++"
 }
