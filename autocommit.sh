@@ -21,7 +21,7 @@ fakewatch() {
     while true; do
         DATE=$(date)
         RESULT=$(commit_code)
-        # clear
+        clear
         echo "$DATE"
         echo "$RESULT"
         sleep 15
