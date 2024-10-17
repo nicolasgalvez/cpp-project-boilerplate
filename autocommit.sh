@@ -12,10 +12,10 @@ fakewatch() {
     while true; do
         DATE=$(date)
         RESULT=$("${@}")
-        clear
+        # clear
         echo "$DATE"
         echo "$RESULT"
-        sleep 15
+        sleep 60
         count=$((count+1))
         echo "watched $count times"
     done
