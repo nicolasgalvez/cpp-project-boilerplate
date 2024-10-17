@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Autocommit every x minutes
-# Much like npm run watch which compiles code on change, this will commit and push code, but on a timer.
+# Auto commit, and push every x minutes
 
 # Interval in minutes
 INTERVAL=10
