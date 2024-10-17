@@ -15,8 +15,6 @@ echo "Interval set to $INTERVAL minutes"
 echo "Usage: $0 <interval>"
 echo "Example: $0 5"
 
-
-
 # Run watch
 commit_code() {
     git pull && (git ls-files --modified --others --exclude-standard | grep . >/dev/null) && {
