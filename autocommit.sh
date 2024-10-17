@@ -12,7 +12,7 @@ commit_code() {
         git push
     }
 }
-# Since my mac doesn't have 'watch', I found a stackexchange post and adapted a solution
+# Since my mac doesn't have 'watch', I found a stackexchange post and adapted a solution 
 # You can use brew to install but I figure I'll try this to avoid platform specific dependencies if possible
 # However, I would like to adapt the script to be windows compatible which may mean using Node or Python
 # https://superuser.com/questions/1061921/is-there-a-native-alternative-to-the-watch-command-for-darwin-os-x
