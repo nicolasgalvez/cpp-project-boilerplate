@@ -46,5 +46,3 @@ fakewatch() {
 fakewatch
 # https://www.markusdosch.com/2020/07/git-auto-commit-push-every-couple-of-minutes/
 # watch -n <SECONDS-INTERVAL> "git pull && (git ls-files --modified --others --exclude-standard | grep . > /dev/null) && { git add . ; git commit -m '<MESSAGE>' ; git push; }"
-
-#test!
