@@ -22,7 +22,7 @@ fakewatch() {
 }
 
 # Run watch
-fakewatch "$(git pull && (git ls-files --modified --others --exclude-standard | grep . >/dev/null) && {
+fakewatch "$(git pull >/dev/null && (git ls-files --modified --others --exclude-standard | grep . >/dev/null) && {
     echo "changes found, comitting code..."
     git add .
     git commit -m 'autocommit'
