@@ -11,7 +11,7 @@ fakewatch() {
     count=0
     while true; do
         DATE=$(date)
-        RESULT=$("${@}")
+        RESULT="$("${@}")"
         # clear
         echo "$DATE"
         echo "$RESULT"
@@ -22,12 +22,12 @@ fakewatch() {
 }
 
 # Run watch
-fakewatch $(git pull && (git ls-files --modified --others --exclude-standard | grep . >/dev/null) && {
+fakewatch "$(git pull && (git ls-files --modified --others --exclude-standard | grep . >/dev/null) && {
     echo "changes found, comitting code..."
     git add .
     git commit -m 'autocommit'
     git push
-})
+})"
 
 # https://www.markusdosch.com/2020/07/git-auto-commit-push-every-couple-of-minutes/
 # watch -n <SECONDS-INTERVAL> "git pull && (git ls-files --modified --others --exclude-standard | grep . > /dev/null) && { git add . ; git commit -m '<MESSAGE>' ; git push; }"
