@@ -3,6 +3,20 @@
 # Autocommit every x minutes
 # Much like npm run watch which compiles code on change, this will commit and push code, but on a timer.
 
+# Interval in minutes
+INTERVAL=10
+
+# accept an argument for the interval
+if [ "$1" != "" ]; then
+    INTERVAL=$1
+fi
+
+echo "Interval set to $INTERVAL minutes"
+echo "Usage: $0 <interval>"
+echo "Example: $0 5"
+
+
+
 # Run watch
 commit_code() {
     git pull && (git ls-files --modified --others --exclude-standard | grep . >/dev/null) && {
@@ -24,9 +38,9 @@ fakewatch() {
         clear
         echo "$DATE"
         echo "$RESULT"
-        sleep 15
+        sleep $((INTERVAL * 60))
         count=$((count + 1))
-        echo "watched $count times"
+        # echo "watched $count times" # TODO: make a -v argument to show this
     done
 }
 
