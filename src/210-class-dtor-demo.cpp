@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-
+ 
 const int MIN = 5, MAX = 15;
 
 // simple class that dynamically allocates an array of integers
