@@ -155,21 +155,21 @@ public:
     
         Node* tempPrev = temp->prev; // make temp previous pointer, assign temp-prev value
         tempPrev->next = temp->next; // and make this temp
-        temp->next->prev = tempPrev;
-        delete temp;
+        temp->next->prev = tempPrev; // set the next node's prev to point to the temp prev item. Now the target is out of the chain.
+        delete temp; // Get it outtta here.
     }
-
+    // Push back adds an node to the back of the list.
     void push_back(int v) {
-        Node* newNode = new Node(v);
-        if (!tail)
-            head = tail = newNode;
-        else {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
+        Node* newNode = new Node(v); // create a node with the value v.
+        if (!tail) // No tail? Must be new
+            head = tail = newNode; // point both to the new and only node.
+        else { // tail found
+            tail->next = newNode; // Point tail to new node
+            newNode->prev = tail; // Set point the new node's previous to the tail
+            tail = newNode; // set the tail to the new node
         }
     }
-    
+    // Ok I'm running out of time. Holy crap. I'm going to switch to the other program.
     void push_front(int v) {
         Node* newNode = new Node(v);
         if (!head)
