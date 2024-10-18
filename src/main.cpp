@@ -81,23 +81,25 @@ public:
         if (!temp) {
             // echo error and use a different type of new line. It's the "endl the line" for \n
             cout << "Position exceeds list size. Node not inserted.\n";
-            // 
+            // Get that thing outta here. Delete the temp node
             delete newNode;
-            return;
+            return; // goto 10
         }
-
+        // Now that temp is pointing to the correct position, copy to the new node so it will be pointing to the next item as well.
         newNode->next = temp->next;
+        // Point to temp, which is currently at the existing item.
         newNode->prev = temp;
+        // If temp next is truthy...
         if (temp->next)
-            temp->next->prev = newNode;
-        else
-            tail = newNode;
-        temp->next = newNode;
+            temp->next->prev = newNode; // Point the temp pointer to uh ok this part always confused me too. I'll see what the rest of the program does.
+        else // if falsy
+            tail = newNode; // we must be at the end of the line, so point the tail at the new node.
+        temp->next = newNode; // set the next pointer of temp to newNode. Here I'm really not sure why. 
     }
-
+    // Delete a node from the linked list. Takes a value to search for.
     void delete_val(int value) {
-        if (!head) return;
-
+        if (!head) return; // This list doesn't have anything in it yet. Return.
+        // 
         Node* temp = head;
         
         while (temp && temp->data != value)
