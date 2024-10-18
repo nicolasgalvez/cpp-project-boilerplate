@@ -55,25 +55,33 @@ private:
 public:
     // Constructor, which accepts the two pointers as arguements. They are set to nullptr by default.
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
-
+    // Method to insert a node after another one, takes the value, and the position of the node to target.
     void insert_after(int value, int position) {
+        // Check the position. I guess this could happen if you don't have proper range checking when traversing in reverse.
         if (position < 0) {
+            // Echo an error message, new line.
             cout << "Position must be >= 0." << endl;
-            return;
-        }
-
+            return; // Does what it says on the box.
+        } // Ends the if statement.
+        // Creates a pointer to a new object instance of type Node, and passes the value to the constructor.
         Node* newNode = new Node(value);
+        // If there is no head...
         if (!head) {
+            // This must be new. Point both the head and tail to the new node.
             head = tail = newNode;
-            return;
-        }
-
+            return; // return to the caller
+        } // Comment *every* line? :-)
+        // Create a temp pointer to head.
         Node* temp = head;
+        // Start a loop that runs until the target is reached, or until temp returns a falsy value.
         for (int i = 0; i < position && temp; ++i)
+        // point to the next node
             temp = temp->next;
-
+        // If there is no next node, we've reached the end before reaching the target.
         if (!temp) {
+            // echo error and use a different type of new line. It's the "endl the line" for \n
             cout << "Position exceeds list size. Node not inserted.\n";
+            // 
             delete newNode;
             return;
         }
