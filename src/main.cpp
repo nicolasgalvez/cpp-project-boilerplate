@@ -169,7 +169,7 @@ public:
         cout << temp->data << " left the line." << endl;
         if (!temp->next)
         {
-            
+
             pop_back();
             return;
         }
@@ -267,7 +267,7 @@ public:
             cout << "List is empty." << endl;
             return;
         }
-        cout << "Resulting line: " << endl;
+        cout << "   Resulting line: ";
         while (current)
         {
             cout << current->data << " ";
@@ -310,8 +310,7 @@ void loadNames()
     }
 }
 
-
-// Random number generator
+// Random number generator TODO: make bool
 int probability(int prob)
 {
     return arc4random() % prob + 1;
@@ -328,7 +327,7 @@ int main()
         // add 5 customers to the line right away
         for (int i = 0; i < 5; i++)
         {
-            int prob = rand() % num_customers;
+            int prob = arc4random() % num_customers;
             line.push_back(customers[prob]);
         }
 
@@ -337,37 +336,37 @@ int main()
         // Start the simulation
         for (int i = 0; i < TIME_PERIODS; i++)
         {
-            cout << "Time setp #" << i + 1 << endl;
+            cout << "--Time step #" << i + 1 << endl;
             // A customer being helped at the beginning of the line and ordering their coffee is 40%
             if (probability(100) <= 40)
             {
                 line.pop_front();
             }
             // A new customer joining the end of the line is 60%
-            else if (probability(100) <= 60)
+            if (probability(100) <= 60)
             {
-                int prob = rand() % num_customers;
+                int prob = arc4random() % num_customers;
                 line.push_back(customers[prob]);
             }
             // The customer at the end of the line deciding they don't want to wait and leaving is 20%
-            else if (probability(100)<=20)
+            if (probability(100) <= 20)
             {
                 line.pop_back();
             }
             // Any particular customer can decide they don't want to wait and leave the line: 10%
-                else if (probability(100) <= 10)
-                {
-                    int pos = rand() % num_customers;
-                    line.delete_pos(pos);
-                }
+            if (probability(100) <= 10)
+            {
+                int pos = arc4random() % num_customers;
+                line.delete_pos(pos);
+            }
 
-                
-                // A VIP (very important person) customer with a Coffee House Gold Card gets to skip the line and go straight to the counter and order: 10%
-                else if (probability(100) <= 10)
-                {
-                    int prob = arc4rand() % num_customers;
-                    line.push_front(customers[prob]);
-                }
+            // A VIP (very important person) customer with a Coffee House Gold Card gets to skip the line and go straight to the counter and order: 10%
+            if (probability(100) <= 10)
+            {
+                int prob = arc4random() % num_customers;
+                line.push_front(customers[prob]);
+            }
+            line.print();
         }
     }
     catch (const std::exception &e)
