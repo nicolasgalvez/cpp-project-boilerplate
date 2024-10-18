@@ -32,22 +32,28 @@ class DoublyLinkedList {
     // In PHP there are protected methods that are accessible to child classes, but otherwise act live private. Does C++ have that?
 private:
     // Create a struct to hold the data for the linked list. One thing I miss is the ablilty to pass any type to a class, but maybe there is a way to do that?
-    // The name 
+    // The name reflects the fact that a linked list is a collection or series of nodes.
     struct Node {
+        // The data that the node will hold. In this case it's an integer.
         int data;
+        // Pointer to the next node in the list.
         Node* prev;
+        // Pointer to the previous node in the list.
         Node* next;
+        // Constructor for the Node struct. It takes an integer value and two pointers to nodes. The default values for the pointers are nullptr.
         Node(int val, Node* p = nullptr, Node* n = nullptr) {
-            data = val; 
-            prev = p;
-            next = n;
+            data = val; // This is the actual data that is being stored. Here is where I'm wondering if we can make this a dynamic type?
+            prev = p; // The prev node, set to nullptr by default. Following it will lead to the uh, head? Which confused me. I thought it should go back to the tail...
+            next = n; // Points to the next node, 
         }
     };
-
+    // The head of the linked list. Ok, this is what confused me. In git the HEAD is the most recent commmit. but in a linked list, it's the "oldest" node.
     Node* head;
+    // The tail of the linked list. This is the most recent node.
     Node* tail;
-
+// Public methods, available outside of the class scope.
 public:
+    // Constructor, which accepts the two pointers as arguements. They are set to nullptr by default.
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
 
     void insert_after(int value, int position) {
