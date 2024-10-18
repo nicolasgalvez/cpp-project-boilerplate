@@ -51,10 +51,11 @@ class DoublyLinkedList {
 private:
     struct Node {
         string data;
+        bool vip = false;
         Node* prev;
         Node* next;
         Node(string val, Node* p = nullptr, Node* n = nullptr) {
-            data = val; 
+            data = val;
             prev = p;
             next = n;
         }
@@ -259,23 +260,36 @@ void loadNames(){
     while (getline(file, line))
     {
         customers.push_back(line);
+        num_customers++;
     }
 }
+
 
 
 // Process the line
 void timeWarp(){
     // again
 }
-
-
-
+// Random number generator
+int probability (int prob) {
+    return rand() % prob + 1;
+}
 int main() {
-    DoublyLinkedList line;
+
+
+
+    loadNames();
     
+DoublyLinkedList line;
     // add 5 customers to the line right away
     for (int i = 0; i < 5; i++) {
-        line.push_back("bill");
+        int prob = rand() % num_customers + 1;
+        line.push_back(customers[prob]);
+    }
+
+    // Start the simulation
+    for (int i = 0; i < TIME_PERIODS; i++) {
+        timeWarp();
     }
 
     return 0;
