@@ -37,7 +37,6 @@ The end customer gets frustrated and leaves the line:
 Jean (at the rear) left the line
  */
 
-
 #include <iostream>
 #include <fstream>
 
@@ -47,43 +46,54 @@ const int TIME_PERIODS = 20;
 vector<string> customers;
 int num_customers;
 
-class DoublyLinkedList {
+class DoublyLinkedList
+{
 private:
-    struct Node {
+    struct Node
+    {
         string data;
         bool vip = false;
-        Node* prev;
-        Node* next;
-        Node(string val, Node* p = nullptr, Node* n = nullptr) {
+        Node *prev;
+        Node *next;
+        Node(string val, Node *p = nullptr, Node *n = nullptr)
+        {
             data = val;
             prev = p;
             next = n;
         }
     };
 
-    Node* head;
-    Node* tail;
+    Node *head;
+    Node *tail;
 
 public:
-    DoublyLinkedList() { head = nullptr; tail = nullptr; }
+    DoublyLinkedList()
+    {
+        head = nullptr;
+        tail = nullptr;
+    }
 
-    void insert_after(string value, int position) {
-        if (position < 0) {
+    void insert_after(string value, int position)
+    {
+        if (position < 0)
+        {
             cout << "Position must be >= 0." << endl;
             return;
         }
 
-        Node* newNode = new Node(value);
-        if (!head) {
+        Node *newNode = new Node(value);
+        if (!head)
+        {
             head = tail = newNode;
             return;
         }
 
-        Node* temp = head;
+        Node *temp = head;
         for (int i = 0; i < position && temp; ++i)
             temp = temp->next;
 
-        if (!temp) {
+        if (!temp)
+        {
             cout << "Position exceeds list size. Node not inserted.\n";
             delete newNode;
             return;
@@ -98,98 +108,116 @@ public:
         temp->next = newNode;
     }
 
-    void delete_val(string value) {
-        if (!head) return;
+    void delete_val(string value)
+    {
+        if (!head)
+            return;
 
-        Node* temp = head;
-        
+        Node *temp = head;
+
         while (temp && temp->data != value)
             temp = temp->next;
 
-        if (!temp) return; 
+        if (!temp)
+            return;
 
         if (temp->prev)
             temp->prev->next = temp->next;
         else
-            head = temp->next; 
+            head = temp->next;
 
         if (temp->next)
             temp->next->prev = temp->prev;
         else
-            tail = temp->prev; 
+            tail = temp->prev;
 
         delete temp;
     }
 
-    void delete_pos(int pos) {
-        if (!head) {
+    void delete_pos(int pos)
+    {
+        if (!head)
+        {
             cout << "List is empty." << endl;
             return;
         }
-    
-        if (pos == 1) {
+
+        if (pos == 1)
+        {
             pop_front();
             return;
         }
-    
-        Node* temp = head;
-    
-        for (int i = 1; i < pos; i++){
-            if (!temp) {
+
+        Node *temp = head;
+
+        for (int i = 1; i < pos; i++)
+        {
+            if (!temp)
+            {
                 cout << "Position doesn't exist." << endl;
                 return;
             }
             else
                 temp = temp->next;
         }
-        if (!temp) {
+        if (!temp)
+        {
             cout << "Position doesn't exist." << endl;
             return;
         }
-    
-        if (!temp->next) {
+
+        if (!temp->next)
+        {
             pop_back();
             return;
         }
-    
-        Node* tempPrev = temp->prev;
+
+        Node *tempPrev = temp->prev;
         tempPrev->next = temp->next;
         temp->next->prev = tempPrev;
         delete temp;
     }
 
-    void push_back(string v) {
-        Node* newNode = new Node(v);
+    void push_back(string v)
+    {
+        Node *newNode = new Node(v);
         if (!tail)
             head = tail = newNode;
-        else {
+        else
+        {
             tail->next = newNode;
             newNode->prev = tail;
             tail = newNode;
         }
+        cout << v << " joined the line." << endl;
     }
-    
-    void push_front(string v) {
-        Node* newNode = new Node(v);
+
+    void push_front(string v)
+    {
+        Node *newNode = new Node(v);
         if (!head)
             head = tail = newNode;
-        else {
+        else
+        {
             newNode->next = head;
             head->prev = newNode;
             head = newNode;
         }
     }
-    
-    void pop_front() {
 
-        if (!head) {
+    void pop_front()
+    {
+
+        if (!head)
+        {
             cout << "List is empty." << endl;
             return;
         }
 
-        Node * temp = head;
+        Node *temp = head;
 
-        if (head->next) {
+        if (head->next)
+        {
             head = head->next;
             head->prev = nullptr;
         }
@@ -198,49 +226,62 @@ public:
         delete temp;
     }
 
-    void pop_back() {
-        if (!tail) {
+    void pop_back()
+    {
+        if (!tail)
+        {
             cout << "List is empty." << endl;
             return;
         }
-        Node * temp = tail;
+        Node *temp = tail;
 
-        if (tail->prev) {
+        if (tail->prev)
+        {
             tail = tail->prev;
             tail->next = nullptr;
         }
         else
             head = tail = nullptr;
         delete temp;
+        cout << "(at the rear) left the line." << endl;
     }
 
-    ~DoublyLinkedList() {
-        while (head) {
-            Node* temp = head;
+    ~DoublyLinkedList()
+    {
+        while (head)
+        {
+            Node *temp = head;
             head = head->next;
             delete temp;
         }
     }
-    void print() {
-        Node* current = head;
-        if (!current) {
+    void print()
+    {
+        Node *current = head;
+        if (!current)
+        {
             cout << "List is empty." << endl;
             return;
         }
-        while (current) {
+        cout << "Resulting line: " << endl;
+        while (current)
+        {
             cout << current->data << " ";
             current = current->next;
         }
         cout << endl;
     }
 
-    void print_reverse() {
-        Node* current = tail;
-        if (!current) { 
+    void print_reverse()
+    {
+        Node *current = tail;
+        if (!current)
+        {
             cout << "List is empty." << endl;
             return;
         }
-        while (current) {
+        while (current)
+        {
             cout << current->data << " ";
             current = current->prev;
         }
@@ -248,8 +289,9 @@ public:
     }
 };
 // Load the names
-void loadNames(){
-    ifstream file("src/names.txt");
+void loadNames()
+{
+    ifstream file("../src/names.txt");
     if (!file)
     {
         cout << "File not found." << endl;
@@ -265,31 +307,42 @@ void loadNames(){
 }
 
 
-
-// Process the line
-void timeWarp(){
-    // again
-}
 // Random number generator
-int probability (int prob) {
+int probability(int prob)
+{
     return rand() % prob + 1;
 }
-int main() {
 
-
-
+int main()
+{
+    DoublyLinkedList line;
     loadNames();
-    
-DoublyLinkedList line;
-    // add 5 customers to the line right away
-    for (int i = 0; i < 5; i++) {
-        int prob = rand() % num_customers + 1;
-        line.push_back(customers[prob]);
-    }
+    cout << "Welcome to SterBooks!" << endl;
+    // try catch since my new m2 mac is having issues with the debugger path
+    try
+    {
+        // add 5 customers to the line right away
+        for (int i = 0; i < 5; i++)
+        {
+            int prob = rand() % num_customers;
+            line.push_back(customers[prob]);
+        }
 
-    // Start the simulation
-    for (int i = 0; i < TIME_PERIODS; i++) {
-        timeWarp();
+        line.print();
+
+        // Start the simulation
+        for (int i = 0; i < TIME_PERIODS; i++)
+        {
+            // A customer being helped at the beginning of the line and ordering their coffee is 40%
+            if (probability(100) <= 40)
+            {
+                line.pop_front();
+            }
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
     }
 
     return 0;
