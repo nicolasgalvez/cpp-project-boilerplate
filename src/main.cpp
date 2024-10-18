@@ -94,7 +94,7 @@ public:
             temp->next->prev = newNode; // Point the temp pointer to uh ok this part always confused me too. I'll see what the rest of the program does.
         else // if falsy
             tail = newNode; // we must be at the end of the line, so point the tail at the new node.
-        temp->next = newNode; // set the next pointer of temp to newNode. Here I'm really not sure why. 
+        temp->next = newNode; // set the pointer to the new node and now it's linked into the chain.
     }
     // Delete a node from the linked list. Takes a value to search for.
     void delete_val(int value) {
@@ -133,28 +133,28 @@ public:
             return; // return nothing.
         }
     
-        Node* temp = head; // 
+        Node* temp = head; // create a temp pointer
     
-        for (int i = 1; i < pos; i++){
-            if (!temp) {
-                cout << "Position doesn't exist." << endl;
-                return;
+        for (int i = 1; i < pos; i++){ // Traverse the list until you get to the target item.
+            if (!temp) { // exit if temp is falsy, we've gone too far
+                cout << "Position doesn't exist." << endl; // notify
+                return; // exit method
             }
-            else
-                temp = temp->next;
+            else // otherwise
+                temp = temp->next; // go to the next item
         }
-        if (!temp) {
-            cout << "Position doesn't exist." << endl;
-            return;
+        if (!temp) { // we should be at the position now. If temp is not a Node though...
+            cout << "Position doesn't exist." << endl; // return
+            return; // and don't return a value
+        }
+        
+        if (!temp->next) { // If temp is pointing to the uh tail... just pop the last item.
+            pop_back(); // call the function to return the tail
+            return; // And return
         }
     
-        if (!temp->next) {
-            pop_back();
-            return;
-        }
-    
-        Node* tempPrev = temp->prev;
-        tempPrev->next = temp->next;
+        Node* tempPrev = temp->prev; // make temp previous pointer, assign temp-prev value
+        tempPrev->next = temp->next; // and make this temp
         temp->next->prev = tempPrev;
         delete temp;
     }
