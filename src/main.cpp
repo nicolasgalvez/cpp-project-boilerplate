@@ -99,39 +99,41 @@ public:
     // Delete a node from the linked list. Takes a value to search for.
     void delete_val(int value) {
         if (!head) return; // This list doesn't have anything in it yet. Return.
-        // 
+        // Create a temp pointer to head
         Node* temp = head;
-        
-        while (temp && temp->data != value)
+        // traverse the nodes until value is found.
+        while (temp && temp->data != value) // move the pointer to the next item until a match is found or temp is false
             temp = temp->next;
-
-        if (!temp) return; 
-
+        // got to the end and no match.
+        if (!temp) return; // nothing to do.
+        // If there is a previous node...
         if (temp->prev)
-            temp->prev->next = temp->next;
-        else
-            head = temp->next; 
+            temp->prev->next = temp->next; // Point the previous node to the node after the node with the matching value.
+        else // if no previous node, 
+            head = temp->next; // we're at the head, so point to it.
 
-        if (temp->next)
-            temp->next->prev = temp->prev;
-        else
-            tail = temp->prev; 
-
-        delete temp;
+        if (temp->next) // Check that we have a node next
+            temp->next->prev = temp->prev; // Set the next node's previous pointer to the one before the node with the matched value.
+        else // there isn't a next node
+            tail = temp->prev; // we must be at the tail!
+        // At this point the target node is cut out of the list. nothing points to it.
+        delete temp; // Now we can get the target node outta here.
+        // void, so no return.
+        // What happens if there are multiple nodes with the same value?
     }
-
-    void delete_pos(int pos) {
-        if (!head) {
-            cout << "List is empty." << endl;
-            return;
+    // method for deleting by position instead of value.
+    void delete_pos(int pos) { // void, so no return.
+        if (!head) { // This list has no values, 
+            cout << "List is empty." << endl; // let the user know, use the original line break.
+            return; // do not return a value.
+        } 
+    
+        if (pos == 1) { // If the position is 1,
+            pop_front(); // call the function to pop it.
+            return; // return nothing.
         }
     
-        if (pos == 1) {
-            pop_front();
-            return;
-        }
-    
-        Node* temp = head;
+        Node* temp = head; // 
     
         for (int i = 1; i < pos; i++){
             if (!temp) {
