@@ -154,20 +154,22 @@ public:
         {
             if (!temp)
             {
-                cout << "Position doesn't exist." << endl;
+                cout << "Delete: Position doesn't exist." << endl;
                 return;
             }
             else
                 temp = temp->next;
         }
+
         if (!temp)
         {
-            cout << "Position doesn't exist." << endl;
+            cout << "Delete: Position doesn't exist." << endl;
             return;
         }
-
+        cout << temp->data << " left the line." << endl;
         if (!temp->next)
         {
+            
             pop_back();
             return;
         }
@@ -203,6 +205,7 @@ public:
             head->prev = newNode;
             head = newNode;
         }
+        cout << v << " (VIP) joined the front of the line." << endl;
     }
 
     void pop_front()
@@ -223,6 +226,7 @@ public:
         }
         else
             head = tail = nullptr;
+        cout << temp->data << " is being served." << endl;
         delete temp;
     }
 
@@ -310,7 +314,7 @@ void loadNames()
 // Random number generator
 int probability(int prob)
 {
-    return rand() % prob + 1;
+    return arc4random() % prob + 1;
 }
 
 int main()
@@ -333,11 +337,37 @@ int main()
         // Start the simulation
         for (int i = 0; i < TIME_PERIODS; i++)
         {
+            cout << "Time setp #" << i + 1 << endl;
             // A customer being helped at the beginning of the line and ordering their coffee is 40%
             if (probability(100) <= 40)
             {
                 line.pop_front();
             }
+            // A new customer joining the end of the line is 60%
+            else if (probability(100) <= 60)
+            {
+                int prob = rand() % num_customers;
+                line.push_back(customers[prob]);
+            }
+            // The customer at the end of the line deciding they don't want to wait and leaving is 20%
+            else if (probability(100)<=20)
+            {
+                line.pop_back();
+            }
+            // Any particular customer can decide they don't want to wait and leave the line: 10%
+                else if (probability(100) <= 10)
+                {
+                    int pos = rand() % num_customers;
+                    line.delete_pos(pos);
+                }
+
+                
+                // A VIP (very important person) customer with a Coffee House Gold Card gets to skip the line and go straight to the counter and order: 10%
+                else if (probability(100) <= 10)
+                {
+                    int prob = arc4rand() % num_customers;
+                    line.push_front(customers[prob]);
+                }
         }
     }
     catch (const std::exception &e)

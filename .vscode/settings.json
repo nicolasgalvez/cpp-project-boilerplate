@@ -32,7 +32,8 @@
         "sstream": "cpp",
         "stack": "cpp",
         "__string": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "__locale": "cpp"
     },
     "C_Cpp.default.compilerPath": "/Library/Developer/CommandLineTools/usr/bin/clang++"
 }
