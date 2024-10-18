@@ -28,7 +28,11 @@
         "string_view": "cpp",
         "unordered_map": "cpp",
         "unordered_set": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "sstream": "cpp",
+        "stack": "cpp",
+        "__string": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.default.compilerPath": "/Library/Developer/CommandLineTools/usr/bin/clang++"
 }

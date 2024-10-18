@@ -39,10 +39,13 @@ Jean (at the rear) left the line
 
 
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
 const int TIME_PERIODS = 20;
+vector<string> customers;
+int num_customers;
 
 class DoublyLinkedList {
 private:
@@ -245,7 +248,18 @@ public:
 };
 // Load the names
 void loadNames(){
-    // Load the names
+    ifstream file("src/names.txt");
+    if (!file)
+    {
+        cout << "File not found." << endl;
+        return;
+    }
+
+    string line;
+    while (getline(file, line))
+    {
+        customers.push_back(line);
+    }
 }
 
 
@@ -258,7 +272,6 @@ void timeWarp(){
 
 int main() {
     DoublyLinkedList line;
-    vector<string> customers;
     
     // add 5 customers to the line right away
     for (int i = 0; i < 5; i++) {
