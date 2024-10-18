@@ -1,0 +1,44 @@
+//      COMSC-210  |  Fall 2024
+//  Prof Dietrich  |  Lab 7 Solution
+
+#include <iostream>
+using namespace std;
+
+string* reverseArray(string *);
+void displayArray(string *);
+
+const int SIZE = 5;
+
+int main()
+{
+    string names[SIZE] = {"Janet", "Jeffe", "Jin", "Joe", "Junio"};
+
+    cout << "Original array: ";
+    displayArray(names);
+
+    // Make a reverse copy of the array.
+    string *arrCopy = reverseArray(names);
+
+    cout << "\nReversed: ";
+    displayArray(arrCopy);
+
+    return 0;
+}
+
+string* reverseArray(string *arr) {
+    string temp;
+    for (int i = 0; i < SIZE/2; i++) {
+        temp = arr[i];
+        arr[i] = arr[(SIZE - 1) - i];
+        arr[(SIZE - 1) - i] = temp;
+    }
+    return arr;
+}
+
+void displayArray(string *arr)
+{
+    for (int index = 0; index < SIZE; index++)
+        cout << *arr++ << " ";
+    cout << endl;
+}
+
