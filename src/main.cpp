@@ -55,11 +55,42 @@ struct Contenders {
         setContender.clear();
     }
 };
+/** 
+ * Probably a simpler way to do this.
+ * This was a fun assignment but I ran out of time!
+ * I'll keep working on it though.
+ * 
+ */
 class Race {
     public:
     Contenders contenders;
-    Clock clock[3];
+    string codes[MAX_CODES];
+    string name;
+    // Time keeping, actually we don't need a seperate struct I think.
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point end;
+    duration<double> duration;
+
+    Race (string name) {
+        this->name = name;
+    }
+    Race (string name, string codes[]) {
+        this->name = name;
+        copy(codes, codes + MAX_CODES, this->codes); // didn't work with just this->codes = codes;
+    }
+    void race(string name, function<void(Contenders&, string)> insertFunc) {
     
+    // start the clock and then run the callback
+    start = high_resolution_clock::now();
+
+    for (int i = 0; i < MAX_CODES; i++) {
+        insertFunc(contenders, codes[i]);
+    }
+    // end the clock
+    end = high_resolution_clock::now();
+
+    }
+
 }
 
 
@@ -67,16 +98,7 @@ class Race {
  * The race function takes the contenders, the codes, and a callback (If I can figure that out)
  * https://stackoverflow.com/questions/2298242/callback-functions-in-c
  */
-Clock race(Contenders &contenders, string codes[MAX_CODES], function<void(Contenders&, string)> insertFunc) {
-    Clock clock;
-    clock.start = high_resolution_clock::now();
-    for (int i = 0; i < MAX_CODES; i++) {
-        insertFunc(contenders, codes[i]);
-    }
-    clock.end = high_resolution_clock::now();
-    clock.duration = duration_cast<duration<double>>(clock.end - clock.start);
-    return clock;
-}
+
 
 
 void displayResults(Clock clock) {
