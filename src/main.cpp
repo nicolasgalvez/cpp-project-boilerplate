@@ -46,19 +46,19 @@ int main_menu();
 
 int main_menu() {
     int choice;
-    cout << "*** GOAT MANAGER 3001 ***" << endl
+    cout << endl << "*** GOAT MANAGER 3001 ***" << endl
          << "[1] Add a goat"  << endl
          << "[2] Delete a goat"  << endl
          << "[3] List goats" << endl
          << "[4] Quit" << endl
-         << "Choice --> "  << endl;
+         << "Choice --> ";
     cin >> choice;
     // validate choice, make sure it's between 1 and 4
     if(choice < 1 || choice > 4) {
         cout << "Invalid choice. Try again." << endl;
         return main_menu();
     }
-
+ cout << endl;
     return choice;
 }
 
@@ -67,18 +67,18 @@ int main_menu() {
  */
 int select_goat(list<Goat> trip) {
     // When you're asking the user to select a certain goat, display a submenu in this format, allowing the user to input an integer to reference the correct goat.
-    cout << "Select a goat:" << endl;
     display_trip(trip);
 
     int choice;
-    cout << "Choose wisely --> ";
+    cout << "Delete wisely --> ";
     cin >> choice;
     // validate choice
     if (choice < 1 || choice >trip.size()) {
         cout << "Invalid choice. Try again." << endl;
         return select_goat(trip);
     }
-    return 0;
+    
+    return choice;
 }
 void delete_goat(list<Goat> &trip) {
     if (trip.empty()) {
@@ -88,10 +88,11 @@ void delete_goat(list<Goat> &trip) {
     // select goat
     int choice = select_goat(trip);
     // delete goat
-    auto it = trip.begin();
-    advance(it, choice);
+    list<Goat>::iterator it = trip.begin();
+    advance(it, choice-1);
     cout << "Deleted " << it->get_name() << endl;
     trip.erase(it);
+
     
 }
 
@@ -110,7 +111,7 @@ void display_trip(list<Goat> trip) {
         cout << "No goats to display." << endl;
         return;
     }
-    cout << "Gaot list:" << endl;
+    cout << "Goat list:" << endl;
     int i = 1;
     for (Goat g : trip) {
         cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;

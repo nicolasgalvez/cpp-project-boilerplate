@@ -33,7 +33,9 @@
         "stack": "cpp",
         "__string": "cpp",
         "random": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "optional": "cpp",
+        "variant": "cpp"
     },
     "C_Cpp.default.compilerPath": "/Library/Developer/CommandLineTools/usr/bin/clang++"
 }
