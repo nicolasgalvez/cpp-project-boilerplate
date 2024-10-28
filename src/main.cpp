@@ -1,6 +1,6 @@
 /**
- * Title: Midterm 2
- * Description: Simulate a line at a coffee shop. Your simulation should run for 20 time periods (minutes) and display the current line at the coffee shop.
+ * Title: 210-lab-23-starter
+ * Description: Goat boy
  * Author: Nick Galvez
  * Class: COMSC-210
  *
@@ -36,343 +36,36 @@ The end customer gets frustrated and leaves the line:
 
 Jean (at the rear) left the line
  */
-
 #include <iostream>
 #include <fstream>
-
+#include <iomanip>
+#include <list>
+#include "Goat.h"
 using namespace std;
 
-const int TIME_PERIODS = 20;
-vector<string> customers;
-int num_customers;
+const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
-class DoublyLinkedList
-{
-private:
-    struct Node
-    {
-        string data;
-        bool vip = false;
-        Node *prev;
-        Node *next;
-        Node(string val, Node *p = nullptr, Node *n = nullptr)
-        {
-            data = val;
-            prev = p;
-            next = n;
-        }
-    };
+int select_goat(list<Goat> trip);
+void delete_goat(list<Goat> &trip);
+void add_goat(list<Goat> &trip, string [], string []);
+void display_trip(list<Goat> trip);
+int main_menu();
 
-    Node *head;
-    Node *tail;
+int main() {
+    srand(time(0));
+    bool again;
 
-public:
-    DoublyLinkedList()
-    {
-        head = nullptr;
-        tail = nullptr;
-    }
-
-    void insert_after(string value, int position)
-    {
-        if (position < 0)
-        {
-            cout << "Position must be >= 0." << endl;
-            return;
-        }
-
-        Node *newNode = new Node(value);
-        if (!head)
-        {
-            head = tail = newNode;
-            return;
-        }
-
-        Node *temp = head;
-        for (int i = 0; i < position && temp; ++i)
-            temp = temp->next;
-
-        if (!temp)
-        {
-            cout << "Position exceeds list size. Node not inserted.\n";
-            delete newNode;
-            return;
-        }
-
-        newNode->next = temp->next;
-        newNode->prev = temp;
-        if (temp->next)
-            temp->next->prev = newNode;
-        else
-            tail = newNode;
-        temp->next = newNode;
-    }
-
-    void delete_val(string value)
-    {
-        if (!head)
-            return;
-
-        Node *temp = head;
-
-        while (temp && temp->data != value)
-            temp = temp->next;
-
-        if (!temp)
-            return;
-
-        if (temp->prev)
-            temp->prev->next = temp->next;
-        else
-            head = temp->next;
-
-        if (temp->next)
-            temp->next->prev = temp->prev;
-        else
-            tail = temp->prev;
-
-        delete temp;
-    }
-
-    void delete_pos(int pos)
-    {
-        if (!head)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
-
-        if (pos == 1)
-        {
-            pop_front();
-            return;
-        }
-
-        Node *temp = head;
-
-        for (int i = 1; i < pos; i++)
-        {
-            if (!temp)
-            {
-                cout << "Delete: Position doesn't exist." << endl;
-                return;
-            }
-            else
-                temp = temp->next;
-        }
-
-        if (!temp)
-        {
-            cout << "Delete: Position doesn't exist." << endl;
-            return;
-        }
-        cout << temp->data << " left the line." << endl;
-        if (!temp->next)
-        {
-
-            pop_back();
-            return;
-        }
-
-        Node *tempPrev = temp->prev;
-        tempPrev->next = temp->next;
-        temp->next->prev = tempPrev;
-        delete temp;
-    }
-
-    void push_back(string v)
-    {
-        Node *newNode = new Node(v);
-        if (!tail)
-            head = tail = newNode;
-        else
-        {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
-        }
-        cout << v << " joined the line." << endl;
-    }
-
-    void push_front(string v)
-    {
-        Node *newNode = new Node(v);
-        if (!head)
-            head = tail = newNode;
-        else
-        {
-            newNode->next = head;
-            head->prev = newNode;
-            head = newNode;
-        }
-        cout << v << " (VIP) joined the front of the line." << endl;
-    }
-
-    void pop_front()
-    {
-
-        if (!head)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
-
-        Node *temp = head;
-
-        if (head->next)
-        {
-            head = head->next;
-            head->prev = nullptr;
-        }
-        else
-            head = tail = nullptr;
-        cout << temp->data << " is being served." << endl;
-        delete temp;
-    }
-
-    void pop_back()
-    {
-        if (!tail)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
-        Node *temp = tail;
-
-        if (tail->prev)
-        {
-            tail = tail->prev;
-            tail->next = nullptr;
-        }
-        else
-            head = tail = nullptr;
-        delete temp;
-        cout << "(at the rear) left the line." << endl;
-    }
-
-    ~DoublyLinkedList()
-    {
-        while (head)
-        {
-            Node *temp = head;
-            head = head->next;
-            delete temp;
-        }
-    }
-    void print()
-    {
-        Node *current = head;
-        if (!current)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
-        cout << "   Resulting line: ";
-        while (current)
-        {
-            cout << current->data << " ";
-            current = current->next;
-        }
-        cout << endl;
-    }
-
-    void print_reverse()
-    {
-        Node *current = tail;
-        if (!current)
-        {
-            cout << "List is empty." << endl;
-            return;
-        }
-        while (current)
-        {
-            cout << current->data << " ";
-            current = current->prev;
-        }
-        cout << endl;
-    }
-};
-// Load the names
-void loadNames()
-{
-    ifstream file("../src/names.txt");
-    if (!file)
-    {
-        cout << "File not found." << endl;
-        return;
-    }
-
-    string line;
-    while (getline(file, line))
-    {
-        customers.push_back(line);
-        num_customers++;
-    }
-}
-
-// Random number generator TODO: make bool
-int probability(int prob)
-{
-    return arc4random() % prob + 1;
-}
-
-int main()
-{
-    DoublyLinkedList line;
-    loadNames();
-    cout << "Welcome to SterBooks!" << endl;
-    // try catch since my new m2 mac is having issues with the debugger path
-    try
-    {
-        // add 5 customers to the line right away
-        for (int i = 0; i < 5; i++)
-        {
-            int prob = arc4random() % num_customers;
-            line.push_back(customers[prob]);
-        }
-
-        line.print();
-
-        // Start the simulation
-        for (int i = 0; i < TIME_PERIODS; i++)
-        {
-            cout << "--Time step #" << i + 1 << endl;
-            // A customer being helped at the beginning of the line and ordering their coffee is 40%
-            if (probability(100) <= 40)
-            {
-                line.pop_front();
-            }
-            // A new customer joining the end of the line is 60%
-            if (probability(100) <= 60)
-            {
-                int prob = arc4random() % num_customers;
-                line.push_back(customers[prob]);
-            }
-            // The customer at the end of the line deciding they don't want to wait and leaving is 20%
-            if (probability(100) <= 20)
-            {
-                line.pop_back();
-            }
-            // Any particular customer can decide they don't want to wait and leave the line: 10%
-            if (probability(100) <= 10)
-            {
-                int pos = arc4random() % num_customers;
-                line.delete_pos(pos);
-            }
-
-            // A VIP (very important person) customer with a Coffee House Gold Card gets to skip the line and go straight to the counter and order: 10%
-            if (probability(100) <= 10)
-            {
-                int prob = arc4random() % num_customers;
-                line.push_front(customers[prob]);
-            }
-            line.print();
-        }
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    // read & populate arrays for names and colors
+    ifstream fin("names.txt");
+    string names[SZ_NAMES];
+    int i = 0;
+    while (fin >> names[i++]);
+    fin.close();
+    ifstream fin1("colors.txt");
+    string colors[SZ_COLORS];
+    i = 0;
+    while (fin1 >> colors[i++]);
+    fin1.close();
 
     return 0;
 }
