@@ -77,9 +77,9 @@ void delete_goat(list<Goat> &trip) {
     select_goat(trip);
 }
 
-void add_goat(list<Goat> &trip, string [], string []) {
+void add_goat(list<Goat> &trip, string name[], string color[]) {
 // When you're adding a goat, randomly select a name and color from main()'s arrays and select a random age between 0 and MAX_AGE.
-
+    trip.emplace(trip.end(), Goat(name, 1, color));
 }
 void display_trip(list<Goat> trip) {
 
@@ -103,6 +103,12 @@ int main() {
     fin1.close();
 
     list<Goat> trip;
+    // add a bunch of temp goats for testing from the names and colors arrays
+    for (int i = 0; i < 10; i++) {
+        trip.push_back(Goat(names[rand() % SZ_NAMES], rand() % MAX_AGE, colors[rand() % SZ_COLORS]));
+    }
+
+
     int choice = main_menu();
     while (choice != 4) {
         switch (choice) {
