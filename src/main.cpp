@@ -88,7 +88,11 @@ void delete_goat(list<Goat> &trip) {
     // select goat
     int choice = select_goat(trip);
     // delete goat
-    trip.erase(choice);
+    auto it = trip.begin();
+    advance(it, choice);
+    cout << "Deleted " << it->get_name() << endl;
+    trip.erase(it);
+    
 }
 
 void add_goat(list<Goat> &trip, string names[], string colors[]) {
