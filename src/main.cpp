@@ -1,41 +1,40 @@
 /**
- * Title: 210-lab-23-starter
+ * Title: Lab 23: Goat Manager 3001
  * Description: Goat boy
  * Author: Nick Galvez
  * Class: COMSC-210
  *
  */
 
-// When the store opens (i.e. in first time period), add 5 customers to the line right away.
-
+// Write three more constructors for the Goat class: one that has just the name as an argument; one with name and age; and the last with all parameters.
+// Write a GM3K1 engine that loops on this menu. Write a main_menu() function that outputs this and then obtains, validates, and returns the user's choice.
 /**
-In subsequent time periods, the probability of:
-
-A customer being helped at the beginning of the line and ordering their coffee is 40%
-A new customer joining the end of the line is 60%
-The customer at the end of the line deciding they don't want to wait and leaving is 20%
-Any particular customer can decide they don't want to wait and leave the line: 10%
-A VIP (very important person) customer with a Coffee House Gold Card gets to skip the line and go straight to the counter and order: 10%
-
-
-The status reporting should look like:
-
-A customer joins the line:
-
-Jean joined the line
-A customer leaves the line before being served:
-
-Jean left the line
-A VIP customer joins the front of the line:
-
-Jean (VIP) joins the front of the line
-A customer is served:
-
-Jean is served
-The end customer gets frustrated and leaves the line:
-
-Jean (at the rear) left the line
+*** GOAT MANAGER 3001 ***
+[1] Add a goat
+[2] Delete a goat
+[3] List goats
+[4] Quit
+Choice --> 
  */
+// Write functions to add a goat to the trip, delete a goat from the trip, and display the current trip.
+
+// When you're adding a goat, randomly select a name and color from main()'s arrays and select a random age between 0 and MAX_AGE.
+
+// When you're asking the user to select a certain goat, display a submenu in this format, allowing the user to input an integer to reference the correct goat.
+
+/*
+[1] Vida (14, Red)
+    [2] Nola (14, Gold)
+    [3] Todd (9, Green)
+    [4] Faye (13, Silver)
+    [5] Lena (12, Teal)
+    [6] Owen (11, Magenta)
+    [7] Kyle (10, Olive)
+    [8] Vern (1, Gold)*/
+
+// Task 4: Polish your output so it looks neatly laid out and flows intuitively.
+
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>

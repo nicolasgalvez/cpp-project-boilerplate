@@ -12,8 +12,10 @@ private:
     string color;
 public: 
     Goat()                          { name = ""; age = 0; color = ""; }
-    // write three more constructors
-
+    // Write three more constructors for the Goat class: one that has just the name as an argument; one with name and age; and the last with all parameters.
+    Goat(string n)                  { name = n;}
+    Goat(string n, int goatAge)                  { name = n; age = goatAge;}
+    Goat(string n, int age, string color)        { name = n; age = age; color = "";}
     // setters and getters
     void set_name(string n)         { name = n; };
     string get_name() const         { return name; };
