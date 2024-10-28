@@ -32,41 +32,70 @@ using namespace std;
 using namespace std::chrono;
 
 
-const int MAXCODES = 20000;
+const int MAX_CODES = 20000;
 // auto<string> contenders[3] = {vector<string>(), list<string>(), set<string>()}; no work.
-vector<string> vectorContender;
-list<string> listContender;
-set<string> setContender;
+// vector<string> vectorContender;
+// list<string> listContender;
+// set<string> setContender;
 
+struct Contenders {
+    vector<string> vectorContender;
+    list<string> listContender;
+    set<string> setContender;
+    ~Contenders() {
+        vectorContender.clear();
+        listContender.clear();
+        setContender.clear();
+    }
+};
 
+struct Clock {
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point end;
+    duration<double> duration;
+};
+
+/**
+ * The race function takes the contenders, the codes, and a callback (If I can figure that out.
+ */
+Clock race(Contenders &contenders, string codes[MAX_CODES]) {
+    Clock clock;
+    clock.start = high_resolution_clock::now();
+    for (int i = 0; i < MAX_CODES; i++) {
+        contenders.vectorContender.push_back(codes[i]);
+        contenders.listContender.push_back(codes[i]);
+        contenders.setContender.insert(codes[i]);
+    }
+}
 
 void displayResults();
 
 
+
 int main()
 {
+    string codes[MAX_CODES];
     // Read the data into a basic array
+    // I don't know if the file system will introduce variance in the timing so I'll do the read challenge using the data
+
     ifstream fin("../src/codes.txt");
     if (!fin)
     {
         cout << "Error opening file." << endl;
         return 1;
     }
-    string codes[MAXCODES];
+    
     int i = 0;
     while (fin >> codes[i++]) ;
     cout << "Read " << i << " codes." << endl;
     fin.close();
 
-    // display the first 10 codes
-    cout << "The first 10 codes are: ";
-    for (int i = 0; i < 10; i++)
-        cout << codes[i] << " ";
-    cout << endl
-    
+    // display the first 10 codes for sanity check
+    // for (int i = 0; i < 10; i++)
+    //     cout << codes[i] << " ";
+    // cout << endl;
 
     auto start = high_resolution_clock::now();
-
 
     // Example loop to measure
     vector<int> numbers;
