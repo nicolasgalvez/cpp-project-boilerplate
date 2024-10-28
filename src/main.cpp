@@ -15,14 +15,16 @@
 // When you're asking the user to select a certain goat, display a submenu in this format, allowing the user to input an integer to reference the correct goat.
 
 /*
-[1] Vida (14, Red)
+        
     [2] Nola (14, Gold)
     [3] Todd (9, Green)
     [4] Faye (13, Silver)
     [5] Lena (12, Teal)
     [6] Owen (11, Magenta)
     [7] Kyle (10, Olive)
-    [8] Vern (1, Gold)*/
+    [8] Vern (1, Gold)
+    
+    */
 
 // Task 4: Polish your output so it looks neatly laid out and flows intuitively.
 
@@ -51,14 +53,28 @@ int main_menu() {
          << "[4] Quit" << endl
          << "Choice --> "  << endl;
     cin >> choice;
+    // validate choice, make sure it's between 1 and 4
+    if(choice < 1 || choice > 4) {
+        cout << "Invalid choice. Try again." << endl;
+        return main_menu();
+    }
+
     return choice;
 }
 
 int select_goat(list<Goat> trip) {
+    // When you're asking the user to select a certain goat, display a submenu in this format, allowing the user to input an integer to reference the correct goat.
+    cout << "Select a goat:" << endl;
+    int i = 1;
+    for (Goat g : trip) {
+        cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
+    }
+
     return 0;
 }
 void delete_goat(list<Goat> &trip) {
-
+    // select goat
+    select_goat(trip);
 }
 
 void add_goat(list<Goat> &trip, string [], string []) {
@@ -88,6 +104,21 @@ int main() {
 
     list<Goat> trip;
     int choice = main_menu();
-
+    while (choice != 4) {
+        switch (choice) {
+            case 1:
+                add_goat(trip, names, colors);
+                break;
+            case 2:
+                delete_goat(trip);
+                break;
+            case 3:
+                display_trip(trip);
+                break;
+            default:
+                cout << "Invalid choice. Try again." << endl;
+        }
+        choice = main_menu();
+    }
     return 0;
 }
