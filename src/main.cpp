@@ -38,6 +38,13 @@ const int MAX_CODES = 20000;
 // list<string> listContender;
 // set<string> setContender;
 
+struct Clock {
+    high_resolution_clock::time_point start;
+    high_resolution_clock::time_point end;
+    duration<double> duration;
+};
+
+
 struct Contenders {
     vector<string> vectorContender;
     list<string> listContender;
@@ -48,27 +55,41 @@ struct Contenders {
         setContender.clear();
     }
 };
+class Race {
+    public:
+    Contenders contenders;
+    Clock clock[3];
+    
+}
 
-struct Clock {
-    high_resolution_clock::time_point start;
-    high_resolution_clock::time_point end;
-    duration<double> duration;
-};
 
 /**
- * The race function takes the contenders, the codes, and a callback (If I can figure that out.
+ * The race function takes the contenders, the codes, and a callback (If I can figure that out)
+ * https://stackoverflow.com/questions/2298242/callback-functions-in-c
  */
-Clock race(Contenders &contenders, string codes[MAX_CODES]) {
+Clock race(Contenders &contenders, string codes[MAX_CODES], function<void(Contenders&, string)> insertFunc) {
     Clock clock;
     clock.start = high_resolution_clock::now();
     for (int i = 0; i < MAX_CODES; i++) {
-        contenders.vectorContender.push_back(codes[i]);
-        contenders.listContender.push_back(codes[i]);
-        contenders.setContender.insert(codes[i]);
+        insertFunc(contenders, codes[i]);
     }
+    clock.end = high_resolution_clock::now();
+    clock.duration = duration_cast<duration<double>>(clock.end - clock.start);
+    return clock;
 }
 
-void displayResults();
+
+void displayResults(Clock clock) {
+    /**
+     *  Operation    Vector      List       Set
+      Read      4081      4664     12682
+      Sort      6001      5993        -1
+    Insert        97       310         5
+    Delete       335       665         1
+     */
+    cout << "Operation" << setw(11) << "Vector" << setw(11) << "List" << setw(5) << "Set" << endl;
+    cout << clock.duration.count() << endl;
+}
 
 
 
