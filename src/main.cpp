@@ -77,9 +77,15 @@ void delete_goat(list<Goat> &trip) {
     select_goat(trip);
 }
 
-void add_goat(list<Goat> &trip, string name[], string color[]) {
+void add_goat(list<Goat> &trip, string names[], string colors[]) {
 // When you're adding a goat, randomly select a name and color from main()'s arrays and select a random age between 0 and MAX_AGE.
-    trip.emplace(trip.end(), Goat(name, 1, color));
+    // get a random name, color
+    string name = names[rand() % SZ_NAMES];
+    string color = colors[rand() % SZ_COLORS];
+    int age = 1+(rand() % MAX_AGE-1); // prevent a 0 year old goat. I guess it could be a new born but it seems weird.
+    
+    trip.emplace(trip.end(), Goat(name, age, color));
+    cout << "Added " << name << " (" << age << ", " << color << ")" << endl;
 }
 void display_trip(list<Goat> trip) {
 
@@ -91,12 +97,18 @@ int main() {
     bool again;
 
     // read & populate arrays for names and colors
-    ifstream fin("names.txt");
+    ifstream fin("../src/names.txt");
+    // make sure file could be opened
+    if (!fin) {
+        cout << "Error opening file." << endl;
+        return 1;
+    }
     string names[SZ_NAMES];
     int i = 0;
     while (fin >> names[i++]);
+    cout << "Read " << i << " names." << endl;
     fin.close();
-    ifstream fin1("colors.txt");
+    ifstream fin1("../src/colors.txt");
     string colors[SZ_COLORS];
     i = 0;
     while (fin1 >> colors[i++]);
@@ -104,9 +116,9 @@ int main() {
 
     list<Goat> trip;
     // add a bunch of temp goats for testing from the names and colors arrays
-    for (int i = 0; i < 10; i++) {
-        trip.push_back(Goat(names[rand() % SZ_NAMES], rand() % MAX_AGE, colors[rand() % SZ_COLORS]));
-    }
+    // for (int i = 0; i < 10; i++) {
+    //     trip.push_back(Goat(names[rand() % SZ_NAMES], rand() % MAX_AGE, colors[rand() % SZ_COLORS]));
+    // }
 
 
     int choice = main_menu();
