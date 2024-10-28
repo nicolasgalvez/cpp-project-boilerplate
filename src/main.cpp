@@ -1,6 +1,6 @@
 /**
- * Title: Lab 23: Goat Manager 3001
- * Description: Goat boy
+ * Title: Lab 24: GM3K2
+ * Description: Convert your Lab 23 to a std::set.
  * Author: Nick Galvez
  * Class: COMSC-210
  *
