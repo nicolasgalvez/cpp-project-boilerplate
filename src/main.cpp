@@ -91,7 +91,21 @@ void add_goat(set<Goat> &trip, string names[], string colors[])
     string color = colors[rand() % SZ_COLORS];
     int age = 1 + rand() % (MAX_AGE - 1); // no 0 year old goats
 
+    // search for an existing goat with the same name, if found check the age and color to make sure the new record is unique
+    for (Goat g : trip)
+    {
+        if (g.get_name() == name && g.get_age() == age && g.get_color() == color)
+        {
+            // cout << "Goat already exists, rerolling goat." << endl;
+            age = 1 + rand() % (MAX_AGE - 1);
+            color = colors[rand() % SZ_COLORS];
+            name = names[rand() % SZ_NAMES];
+        }
+    }
+
     trip.emplace(Goat(name, age, color));
+    // trip.emplace(Goat(name, age, color)); // try to trigger a unique error, why doesn't this fail?
+
     cout << "Added " << name << " (" << age << ", " << color << ")" << endl;
 }
 /**
@@ -139,6 +153,12 @@ int main()
     fin1.close();
 
     set<Goat> trip;
+
+    // try to trigger a unique error
+    // for (int i = 0; i < 10000; i++)
+    // {
+    //     add_goat(trip, names, colors);
+    // }
 
     int choice = main_menu();
     while (choice != 4)
