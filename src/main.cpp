@@ -62,19 +62,33 @@ int main_menu() {
     return choice;
 }
 
+/**
+ * Display goats and select one
+ */
 int select_goat(list<Goat> trip) {
     // When you're asking the user to select a certain goat, display a submenu in this format, allowing the user to input an integer to reference the correct goat.
     cout << "Select a goat:" << endl;
-    int i = 1;
-    for (Goat g : trip) {
-        cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
-    }
+    display_trip(trip);
 
+    int choice;
+    cout << "Choose wisely --> ";
+    cin >> choice;
+    // validate choice
+    if (choice < 1 || choice >trip.size()) {
+        cout << "Invalid choice. Try again." << endl;
+        return select_goat(trip);
+    }
     return 0;
 }
 void delete_goat(list<Goat> &trip) {
+    if (trip.empty()) {
+        cout << "No goats to delete." << endl;
+        return;
+    }
     // select goat
-    select_goat(trip);
+    int choice = select_goat(trip);
+    // delete goat
+    trip.erase(choice);
 }
 
 void add_goat(list<Goat> &trip, string names[], string colors[]) {
@@ -82,13 +96,21 @@ void add_goat(list<Goat> &trip, string names[], string colors[]) {
     // get a random name, color
     string name = names[rand() % SZ_NAMES];
     string color = colors[rand() % SZ_COLORS];
-    int age = 1+(rand() % MAX_AGE-1); // prevent a 0 year old goat. I guess it could be a new born but it seems weird.
+    int age = 1 + rand() % (MAX_AGE-1); // no 0 year old goats
     
     trip.emplace(trip.end(), Goat(name, age, color));
     cout << "Added " << name << " (" << age << ", " << color << ")" << endl;
 }
 void display_trip(list<Goat> trip) {
-
+    if (trip.empty()) {
+        cout << "No goats to display." << endl;
+        return;
+    }
+    cout << "Gaot list:" << endl;
+    int i = 1;
+    for (Goat g : trip) {
+        cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
+    }
 }
 
 
