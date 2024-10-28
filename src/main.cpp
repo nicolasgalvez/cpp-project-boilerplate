@@ -9,16 +9,16 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <list>
+#include <set>
 #include "Goat.h"
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 
-int select_goat(list<Goat> trip);
-void delete_goat(list<Goat> &trip);
-void add_goat(list<Goat> &trip, string[], string[]);
-void display_trip(list<Goat> trip);
+int select_goat(set<Goat> trip);
+void delete_goat(set<Goat> &trip);
+void add_goat(set<Goat> &trip, string[], string[]);
+void display_trip(set<Goat> trip);
 int main_menu();
 
 int main_menu()
@@ -45,7 +45,7 @@ int main_menu()
 /**
  * Display goats and select one
  */
-int select_goat(list<Goat> trip)
+int select_goat(set<Goat> trip)
 {
     // When you're asking the user to select a certain goat, display a submenu in this format, allowing the user to input an integer to reference the correct goat.
     display_trip(trip);
@@ -63,9 +63,9 @@ int select_goat(list<Goat> trip)
     return choice;
 }
 /**
- * Delete a goat from the list
+ * Delete a goat from the set
  */
-void delete_goat(list<Goat> &trip)
+void delete_goat(set<Goat> &trip)
 {
     if (trip.empty())
     {
@@ -75,15 +75,15 @@ void delete_goat(list<Goat> &trip)
     // select goat
     int choice = select_goat(trip);
     // delete goat
-    list<Goat>::iterator it = trip.begin();
+    set<Goat>::iterator it = trip.begin();
     advance(it, choice - 1);
     cout << "Deleted " << it->get_name() << endl;
     trip.erase(it);
 }
 /**
- * Add a goat to the list
+ * Add a goat to the set
  */
-void add_goat(list<Goat> &trip, string names[], string colors[])
+void add_goat(set<Goat> &trip, string names[], string colors[])
 {
     // When you're adding a goat, randomly select a name and color from main()'s arrays and select a random age between 0 and MAX_AGE.
     // get a random name, color
@@ -91,13 +91,13 @@ void add_goat(list<Goat> &trip, string names[], string colors[])
     string color = colors[rand() % SZ_COLORS];
     int age = 1 + rand() % (MAX_AGE - 1); // no 0 year old goats
 
-    trip.emplace(trip.end(), Goat(name, age, color));
+    trip.emplace(Goat(name, age, color));
     cout << "Added " << name << " (" << age << ", " << color << ")" << endl;
 }
 /**
- * Display the list of goats
+ * Display the set of goats
  */
-void display_trip(list<Goat> trip)
+void display_trip(set<Goat> trip)
 {
     if (trip.empty())
     {
@@ -138,7 +138,7 @@ int main()
         ;
     fin1.close();
 
-    list<Goat> trip;
+    set<Goat> trip;
 
     int choice = main_menu();
     while (choice != 4)
