@@ -12,7 +12,7 @@
 
 using namespace std;
 
-const int CHOICE_MIN = 0, CHOICE_MAX = 6;
+const int CHOICE_MIN = 0, CHOICE_MAX = 6, FREINDSHIP_MIN = 0, FRIENDSHIP_MAX = 10;
 const string INVALID_CHOICE = "Invalid choice, me lord.";
 
 string trogdor = readAnsiFile("../src/trogdor.ans");
@@ -28,6 +28,8 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData);
 void increase_friendship(map<string, tuple<int, string, string>> &villagerData);
 void decrease_friendship(map<string, tuple<int, string, string>> &villagerData);
 void display_village(map<string, tuple<int, string, string>> villagerData);
+string select_villager(map<string, tuple<int, string, string>> villagerData);
+string search(map<string, tuple<int, string, string>> villagerData);
 void burninate(string name);
 int main_menu();
 
@@ -53,6 +55,17 @@ int main_menu()
     }
     cout << endl;
     return choice;
+}
+
+string search(map<string, tuple<int, string, string>> villagerData) {
+    string search;
+    cout << "Enter the name of the villager you are searching for: ";
+    cin >> search;
+    villagerData.find();
+    // if (villagerData.find(search) != villagerData.end()) {
+    //     cout << "Villager not found." << endl;
+    // }
+    return search;
 }
 
 void add_villager(map<string, tuple<int, string, string>> &villagerData)
@@ -92,7 +105,7 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData)
             cin.ignore(1000, '\n');
             cout << "Friendship level must be an integer. Try again." << endl;
         }
-        else if (friendshipLevel < 0 || friendshipLevel > 10)
+        else if (friendshipLevel < FREINDSHIP_MIN || friendshipLevel > 10)
         {
             cout << "Friendship level must be between 0 and 10. Try again." << endl;
         }
@@ -134,10 +147,36 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData)
 }
 void increase_friendship(map<string, tuple<int, string, string>> &villagerData)
 {
-    
+    // select villager
+    string key = select_villager(villagerData);
+    // increase friendship
+    // get the name from the tuple
+    int friendship = get<0>(villagerData[key]);
+    if (friendship < 10)
+    {
+        friendship++;
+        get<0>(villagerData[key]) = friendship;
+        cout << key << "'s friendship level increased to " << friendship << "." << endl;
+    }
+    else
+    {
+        cout << key << " already thinks you are a wise ruler." << endl;
+    }
 }
 void decrease_friendship(map<string, tuple<int, string, string>> &villagerData)
 {
+    string key = select_villager(villagerData);
+    int friendship = get<0>(villagerData[key]);
+    if (friendship > FREINDSHIP_MIN)
+    {
+        friendship--;
+        get<0>(villagerData[key]) = friendship;
+        cout << key << "'s friendship level decreased to " << friendship << "." << endl;
+    }
+    else
+    {
+        cout << key << " is already planning revolt!" << endl;
+    }
 }
 
 string select_villager(map<string, tuple<int, string, string>> villagerData)
@@ -273,6 +312,10 @@ int main()
             break;
         case 4:
             decrease_friendship(villagerData);
+            break;
+            break;
+        case 5:
+            search(villagerData);
             break;
         default:
             cout << INVALID_CHOICE << endl;
