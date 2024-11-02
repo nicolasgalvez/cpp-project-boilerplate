@@ -1,18 +1,19 @@
 {
     "configurations": [
+
         {
             "name": "Build and debug main.cpp",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/main",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
             "preLaunchTask": "Build Main",
-            // "targetArchitecture": "x86_64",
+            "targetArchitecture": "arm64",
             "logging": {
                 "moduleLoad": false,
                 "programOutput": true,

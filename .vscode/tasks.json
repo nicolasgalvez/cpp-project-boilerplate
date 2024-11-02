@@ -8,7 +8,8 @@
                 "-std=c++11",
                 "${workspaceFolder}/src/main.cpp",
                 "-o",
-                "${workspaceFolder}/build/main"
+                "${workspaceFolder}/build/main",
+                "-g"
             ],
             "group": {
                 "kind": "build",
