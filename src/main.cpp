@@ -4,7 +4,7 @@
  * Class: COMSC-210
  *
  */
-
+#include <csignal>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -15,15 +15,10 @@ using namespace std;
 const int CHOICE_MIN = 0, CHOICE_MAX = 6, FREINDSHIP_MIN = 0, FRIENDSHIP_MAX = 10;
 const string INVALID_CHOICE = "Invalid choice, me lord.";
 
+// Get the game art
 string trogdor = readAnsiFile("../src/trogdor.ans");
 
-// struct Villager {
-//     int friendshipLevel; // 0-10
-//     string species;
-//     string catchphrase;
-// };
-// int select_villager(map<string, tuple<int, string, string>> villagerData);
-// void delete_villager(map<string, tuple<int, string, string>> villagerData);
+// function prototypes
 void add_villager(map<string, tuple<int, string, string>> &villagerData);
 void delete_villager(map<string, tuple<int, string, string>> &villagerData);
 void increase_friendship(map<string, tuple<int, string, string>> &villagerData);
@@ -35,21 +30,30 @@ void burninate(string name);
 string str_to_lower(const string &str);
 int main_menu();
 
-// https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
-// looks like I can't get this to work right anyway.
+// Do nothing on terminal resize
+void handleSigwinch(int signal)
+{
+}
+
+/**
+ * Convert a string to lowercase, you would think this is part of the string library.
+ * @see https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
+ **/
 string str_to_lower(const string &str)
 {
     string result = "";
 
-    for (char ch : str) {
+    for (char ch : str)
+    {
         // Convert each character to lowercase using tolower
         result += tolower(ch);
     }
 
     return result;
 }
-
-
+/**
+ * Display the main menu and return the user's choice
+ */
 int main_menu()
 {
     int choice;
@@ -73,6 +77,10 @@ int main_menu()
     cout << endl;
     return choice;
 }
+
+/**
+ * Display the villager data
+ */
 void show_villager(map<string, tuple<int, string, string>> villagerData, string key)
 {
     cout << "Villager: " << key << endl;
@@ -81,7 +89,11 @@ void show_villager(map<string, tuple<int, string, string>> villagerData, string 
     cout << "Catchphrase: " << get<2>(villagerData[key]) << endl;
 }
 
-string search(map<string, tuple<int, string, string>> villagerData) {
+/**
+ * Search for a villager by name
+ */
+string search(map<string, tuple<int, string, string>> villagerData)
+{
     string search;
     cout << "Enter the name of the villager you are searching for: ";
     // cin >> search;
@@ -96,11 +108,11 @@ string search(map<string, tuple<int, string, string>> villagerData) {
 
     // NOTE: This was throwing an exception, but I'm not sure why. I ran it again after a while and it worked.
     // Try lambda
-    auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>>& item) {
-        return str_to_lower(item.first) == search || false;
-    });
+    auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>> &item)
+                      { return str_to_lower(item.first) == search || false; });
     // return key if found
-    if (it != villagerData.end()) {
+    if (it != villagerData.end())
+    {
         show_villager(villagerData, it->first);
         return it->first;
     }
@@ -108,6 +120,9 @@ string search(map<string, tuple<int, string, string>> villagerData) {
     return "";
 }
 
+/**
+ * Add a villager to the map
+ */
 void add_villager(map<string, tuple<int, string, string>> &villagerData)
 {
     string name;
@@ -183,6 +198,10 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData)
 
     villagerData[name] = make_tuple(friendshipLevel, species, catchphrase);
 }
+
+/**
+ * Increase the friendship level of a villager
+ */
 void increase_friendship(map<string, tuple<int, string, string>> &villagerData)
 {
     // select villager
@@ -201,6 +220,10 @@ void increase_friendship(map<string, tuple<int, string, string>> &villagerData)
         cout << key << " already thinks you are a wise ruler." << endl;
     }
 }
+
+/**
+ * Decrease the friendship level of a villager
+ */
 void decrease_friendship(map<string, tuple<int, string, string>> &villagerData)
 {
     string key = select_villager(villagerData);
@@ -217,6 +240,9 @@ void decrease_friendship(map<string, tuple<int, string, string>> &villagerData)
     }
 }
 
+/**
+ * Select a villager from the map
+ */
 string select_villager(map<string, tuple<int, string, string>> villagerData)
 {
     // When you're asking the user to select a certain villager, display a submenu in this format, allowing the user to input an integer to reference the correct villager.
@@ -238,8 +264,9 @@ string select_villager(map<string, tuple<int, string, string>> villagerData)
 
     return it->first;
 }
+
 /**
- * Display the set of goats
+ * Display the village data
  */
 void display_village(map<string, tuple<int, string, string>> villagerData)
 {
@@ -251,7 +278,7 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
     }
     cout << "Villager list:" << endl;
     // make a table with setw(15) for the first two items
-    cout << setw(7) << left << "Index" << setw(15) << left  << "Name" << setw(11) << "Friendship" << setw(8) << "Species" << setw(15) << "Catchphrase" << endl;
+    cout << setw(7) << left << "Index" << setw(15) << left << "Name" << setw(11) << "Friendship" << setw(8) << "Species" << setw(15) << "Catchphrase" << endl;
     // display villager names, species, and catchphrases
     for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
          it != villagerData.end(); ++it)
@@ -261,11 +288,14 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
         // cast int as string
         string indexStr = to_string(index);
         indexStr.append(". ");
-        cout << setw(7) << right << indexStr << left<<  setw(15) << it->first<<  setw(11) << left   << get<0>(it->second ) <<  setw(8)  << left << get<1>(it->second)<<  setw(15)  << left  << get<2>(it->second) << endl;
+        cout << setw(7) << right << indexStr << left << setw(15) << it->first << setw(11) << left << get<0>(it->second) << setw(8) << left << get<1>(it->second) << setw(15) << left << get<2>(it->second) << endl;
     }
     cout << endl;
 }
 
+/**
+ * Delete a villager from the map with dragon fire
+ */
 void delete_villager(map<string, tuple<int, string, string>> &villagerData)
 {
     if (villagerData.empty())
@@ -281,6 +311,10 @@ void delete_villager(map<string, tuple<int, string, string>> &villagerData)
     villagerData.erase(key);
     burninate(key);
 }
+
+/**
+ * What it says on the tin
+ */
 void burninate(string name)
 {
     if (!trogdor.empty())
@@ -290,52 +324,23 @@ void burninate(string name)
     cout << name << " was BURNINATED!!" << endl;
 }
 
+/**
+ * Main function, no args
+ */
 int main()
 {
+    // https://stackoverflow.com/questions/77740577/is-there-a-way-to-block-macos-terminal-resize-sys-calls
+    signal(SIGWINCH, handleSigwinch);
     // declarations
-
-    // Change the data we're storing to friendship level (0-10), the villager's species (string), and the villager's catchphrase (string)
     map<string, tuple<int, string, string>> villagerData; // Finally! PHP style associative arrays!
 
+    // populate the village
     villagerData["Audie"] = make_tuple(10, "Peasant", "More Work?");
     villagerData["Raymond"] = make_tuple(2, "Peasant", "Strange women lying in ponds distributing swords is no basis for a system of government.");
     villagerData["Max"] = make_tuple(2, "Wizard", "You rush a miracle man, you get rotten miracles.");
     villagerData["Valerie"] = make_tuple(2, "Witch", "I'm not a witch, I'm your wife! But after what you just said, I'm not even sure sure I want to be that anymore!");
     villagerData["Woman"] = make_tuple(2, "Peasant", "Well, I didn't vote for you.");
 
-    // insert elements into the map
-    // note how the right-hand side of the assignment are the vector elements
-    // villagerColors["Audie"] = {"Orange", "Yellow", "Red"};
-    // villagerColors["Raymond"] = {"Black", "Gray", "White"};
-    // villagerColors.insert({"Marshal", {"Blue", "White", "Black"}});
-
-    // // access the map using a range-based for loop
-    // cout << "Villagers and their favorite colors (range-based for loop):" << endl;
-    // for (auto pair : villagerColors) {
-    //     cout << pair.first << ": ";
-    //     for (auto color : pair.second)
-    //         cout << color << " ";
-    //     cout << endl;
-    // }
-
-    // // access the map using iterators
-    // cout << "\nVillagers and their favorite colors (iterators):" << endl;
-    // for (map<string, vector<string>>::iterator it = villagerColors.begin();
-    //                                            it != villagerColors.end(); ++it) {
-    //     cout << it->first << ": ";
-    //     for (auto color : it->second) {
-    //         cout << color << " ";
-    //     }
-    //     cout << endl;
-    // }
-
-    // // delete an element
-    // villagerColors.erase("Raymond");
-
-    // // report size, clear, report size again to confirm map operations
-    // cout << "\nSize before clear: " << villagerColors.size() << endl;
-    // villagerColors.clear();
-    // cout << "Size after clear: " << villagerColors.size() << endl;
     int choice = main_menu();
     while (choice != 6)
     {
