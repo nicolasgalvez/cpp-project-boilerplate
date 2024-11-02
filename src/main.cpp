@@ -53,17 +53,70 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData) {
     int friendshipLevel;
     string species;
     string catchphrase;
-    cout << "Villager name: ";
-    cin >> name;
+
+    while (true)
+    {
+        cout << "Enter the name of the villager: ";
+        getline(cin >> ws, name);
+        if (name.empty())
+        {
+            cout << "Species cannot be empty. Try again." << endl;
+        }
+        else if (villagerData.find(name) != villagerData.end())
+        {
+            cout << "Villager already exists. Try again." << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
 
     // TODO: Move to another function
-    cout << "Friendship level: ";
-    cin >> friendshipLevel;
-    cout << "Species: ";
-    cin >> species;
-    cout << "Catchphrase: ";
-    cin >> catchphrase;
+    while (true)
+    {
+        cout << "Friendship level: ";
+        cin >> friendshipLevel;
+ 
+        if(friendshipLevel < 0 || friendshipLevel > 10)
+        {
+            cout << "Friendship level must be between 0 and 10. Try again." << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
+    while (true)
+    {
+        cout << "Species: ";
+        cin >> species;
+        if (species.empty())
+        {
+            cout << "Species cannot be empty. Try again." << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
+    while (true)
+    {
+        cout << "Catchphrase: ";
+        getline(cin >> ws, catchphrase);
+        if (catchphrase.empty())
+        {
+            cout << "Catchphrase cannot be empty. Try again." << endl;
+        }
+        else
+        {
+            break;
+        }
+    }
+
     cout << name << " added." << endl;
+
+
     villagerData[name] = make_tuple(friendshipLevel, species, catchphrase);
 
 }
@@ -188,7 +241,7 @@ int main()
     {
         switch (choice)
         {
-        case 0:
+        case 7:
             display_village(villagerData);
         case 1:
             add_villager(villagerData);
