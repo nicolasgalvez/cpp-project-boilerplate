@@ -11,6 +11,10 @@
 #include "ansi.h"
 
 using namespace std;
+
+const int CHOICE_MIN = 0, CHOICE_MAX = 6;
+const string INVALID_CHOICE = "Invalid choice, me lord.";
+
 string trogdor = readAnsiFile("../src/trogdor.ans");
 
 // struct Villager {
@@ -21,6 +25,8 @@ string trogdor = readAnsiFile("../src/trogdor.ans");
 // int select_villager(map<string, tuple<int, string, string>> villagerData);
 // void delete_villager(map<string, tuple<int, string, string>> villagerData);
 void add_villager(map<string, tuple<int, string, string>> &villagerData);
+void increase_friendship(map<string, tuple<int, string, string>> &villagerData);
+void decrease_friendship(map<string, tuple<int, string, string>> &villagerData);
 void display_village(map<string, tuple<int, string, string>> villagerData);
 void burninate(string name);
 int main_menu();
@@ -29,6 +35,7 @@ int main_menu()
 {
     int choice;
     cout << "Villager Manager 3000" << endl;
+    cout << "0. List Villagers" << endl;
     cout << "1. Add Villager" << endl;
     cout << "2. Delete Villager" << endl;
     cout << "3. Increase Friendship" << endl;
@@ -39,16 +46,17 @@ int main_menu()
 
     cin >> choice;
     // validate choice, make sure it's between 1 and 4
-    if (choice < 1 || choice > 6)
+    if (choice < CHOICE_MIN || choice > CHOICE_MAX)
     {
-        cout << "Invalid choice. Try again." << endl;
+        cout << INVALID_CHOICE << endl;
         return main_menu();
     }
     cout << endl;
     return choice;
 }
 
-void add_villager(map<string, tuple<int, string, string>> &villagerData) {
+void add_villager(map<string, tuple<int, string, string>> &villagerData)
+{
     string name;
     int friendshipLevel;
     string species;
@@ -84,7 +92,7 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData) {
             cin.ignore(1000, '\n');
             cout << "Friendship level must be an integer. Try again." << endl;
         }
-        else if(friendshipLevel < 0 || friendshipLevel > 10)
+        else if (friendshipLevel < 0 || friendshipLevel > 10)
         {
             cout << "Friendship level must be between 0 and 10. Try again." << endl;
         }
@@ -122,9 +130,14 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData) {
 
     cout << name << " added." << endl;
 
-
     villagerData[name] = make_tuple(friendshipLevel, species, catchphrase);
-
+}
+void increase_friendship(map<string, tuple<int, string, string>> &villagerData)
+{
+    
+}
+void decrease_friendship(map<string, tuple<int, string, string>> &villagerData)
+{
 }
 
 string select_villager(map<string, tuple<int, string, string>> villagerData)
@@ -138,7 +151,7 @@ string select_villager(map<string, tuple<int, string, string>> villagerData)
     // validate choice
     if (choice < 1 || choice > villagerData.size())
     {
-        cout << "Invalid choice. Try again." << endl;
+        cout << "Invalid choice, me lord." << endl;
         return select_villager(villagerData);
     }
     // Find the villager and return the key
@@ -163,7 +176,7 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
     // display villager names, species, and catchphrases
     for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
          it != villagerData.end(); ++it)
-    {   
+    {
         // get iterator index, seems like maybe i++ would be more performant
         int index = distance(villagerData.begin(), it) + 1;
         cout << index << ". " << it->first << ": " << get<1>(it->second) << " - " << get<2>(it->second) << endl;
@@ -247,7 +260,7 @@ int main()
     {
         switch (choice)
         {
-        case 7:
+        case 0:
             display_village(villagerData);
         case 1:
             add_villager(villagerData);
@@ -256,10 +269,13 @@ int main()
             delete_villager(villagerData);
             break;
         case 3:
-            display_village(villagerData);
+            increase_friendship(villagerData);
+            break;
+        case 4:
+            decrease_friendship(villagerData);
             break;
         default:
-            cout << "Invalid choice, me lord." << endl;
+            cout << INVALID_CHOICE << endl;
         }
         display_village(villagerData);
         choice = main_menu();
