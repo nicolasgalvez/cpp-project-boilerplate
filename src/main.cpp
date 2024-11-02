@@ -9,14 +9,26 @@
 #include <map>
 #include <vector>
 #include "ansi.h"
+#include <fstream>
+#include <iomanip>
+#include <list>
+#include "Goat.h"
 
 using namespace std;
-
+const int SZ_NAMES = 200, SZ_COLORS = 25;
 const int CHOICE_MIN = 0, CHOICE_MAX = 6, FREINDSHIP_MIN = 0, FRIENDSHIP_MAX = 10;
 const string INVALID_CHOICE = "Invalid choice, me lord.";
 
 // Get the game art
 string trogdor = readAnsiFile("../src/trogdor.ans");
+
+// Goated prototypes
+int select_goat(list<Goat> trip);
+void delete_goat(list<Goat> &trip);
+void add_goat(list<Goat> &trip, string [], string []);
+void display_trip(list<Goat> trip);
+int main_menu();
+
 
 // function prototypes
 void add_villager(map<string, tuple<int, string, string>> &villagerData);
@@ -333,6 +345,61 @@ int main()
     signal(SIGWINCH, handleSigwinch);
     // declarations
     map<string, tuple<int, string, string>> villagerData; // Finally! PHP style associative arrays!
+    srand(time(0));
+    bool again;
+
+ // read & populate arrays for names and colors
+    ifstream fin("names.txt");
+    string names[SZ_NAMES];
+    int i = 0;
+    while (fin >> names[i++]);
+    fin.close();
+    ifstream fin1("colors.txt");
+    string colors[SZ_COLORS];
+    i = 0;
+    while (fin1 >> colors[i++]);
+    fin1.close();
+
+    // create & populate a trip of Goats using std::list of random size 8-15
+    int tripSize = rand() % 8 + 8;
+    list<Goat> trip;
+    int age;
+    string name, color;
+    for (int i = 0; i < tripSize; i++) {
+        age = rand() % MAX_AGE;  // defined in Goat.h
+        name = names[rand() % SZ_NAMES];
+        color = colors[rand() % SZ_COLORS];
+        Goat tmp(name, age, color);
+        trip.push_back(tmp);
+    }
+    
+    // Goat Manager 3001 Engine
+    int sel = main_menu();
+    while (sel != 4) {
+        switch (sel) {
+            case 1:
+                cout << "Adding a goat.\n";
+                add_goat(trip, names, colors);
+                break;
+            case 2:    
+                cout << "Removing a goat.\n";
+                delete_goat(trip);
+                break;
+            case 3:    
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            default:
+                cout << "Invalid selection.\n";
+                break;
+        }
+        sel = main_menu();
+    }
+    
+
+    return 0;
+
+
 
     // populate the village
     villagerData["Audie"] = make_tuple(10, "Peasant", "More Work?");
