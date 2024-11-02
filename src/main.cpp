@@ -45,11 +45,25 @@ int main_menu()
     cout << endl;
     return choice;
 }
-
-void burninate()
+void delete_goat(set<Goat> &trip)
+{
+    if (trip.empty())
+    {
+        cout << "No goats to delete." << endl;
+        return;
+    }
+    // select goat
+    int choice = select_goat(trip);
+    // delete goat
+    set<Goat>::iterator it = trip.begin();
+    advance(it, choice - 1);
+    cout << "Deleted " << it->get_name() << endl;
+    trip.erase(it);
+}
+void burninate( )
 {
     if (!trogdor.empty()) {
-        displayAnsiArt(ansiArt);
+        displayAnsiArt(trogdor);
     }
     cout << "BURNINATED!!" << endl;
 }
@@ -62,8 +76,9 @@ int main() {
 
     villagerData["Audie"] = make_tuple(10, "Peasant", "More Work?");
     villagerData["Raymond"] = make_tuple(2, "Peasant", "Strange women lying in ponds distributing swords is no basis for a system of government.");
-    villagerData["Dennis"] = make_tuple(2, "Serf", "Strange women lying in ponds distributing swords is no basis for a system of government.");
-    villagerData["Dennis"] = make_tuple(2, "Wench", "Strange women lying in ponds distributing swords is no basis for a system of government.");
+    villagerData["Max"] = make_tuple(2, "Wizard", "You rush a miracle man, you get rotten miracles.");
+    villagerData["Valerie"] = make_tuple(2, "Witch", "I'm not a witch, I'm your wife! But after what you just said, I'm not even sure sure I want to be that anymore!");
+    villagerData["Woman"] = make_tuple(2, "Peasant", "Well, I didn't vote for you."); 
 
     // insert elements into the map
     // note how the right-hand side of the assignment are the vector elements
@@ -116,13 +131,13 @@ int main() {
         switch (choice)
         {
         case 1:
-            add_villager(trip, names, colors);
+            add_villager(villagerData, names, colors);
             break;
         case 2:
-            delete_villager(trip);
+            delete_villager(villagerData);
             break;
         case 3:
-            display_village(trip);
+            display_village(villagerData);
             break;
         default:
             cout << "Invalid choice, me lord." << endl;
