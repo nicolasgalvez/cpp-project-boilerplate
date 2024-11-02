@@ -60,9 +60,10 @@ int main() {
     // Change the data we're storing to friendship level (0-10), the villager's species (string), and the villager's catchphrase (string)
     map<string, tuple<int, string, string>> villagerData; // Finally! PHP style associative arrays!
 
-
-
-
+    villagerData["Audie"] = make_tuple(10, "Peasant", "More Work?");
+    villagerData["Raymond"] = make_tuple(2, "Peasant", "Strange women lying in ponds distributing swords is no basis for a system of government.");
+    villagerData["Dennis"] = make_tuple(2, "Serf", "Strange women lying in ponds distributing swords is no basis for a system of government.");
+    villagerData["Dennis"] = make_tuple(2, "Wench", "Strange women lying in ponds distributing swords is no basis for a system of government.");
 
     // insert elements into the map
     // note how the right-hand side of the assignment are the vector elements
@@ -115,16 +116,16 @@ int main() {
         switch (choice)
         {
         case 1:
-            add_goat(trip, names, colors);
+            add_villager(trip, names, colors);
             break;
         case 2:
-            delete_goat(trip);
+            delete_villager(trip);
             break;
         case 3:
-            display_trip(trip);
+            display_village(trip);
             break;
         default:
-            cout << "Invalid choice. Try again." << endl;
+            cout << "Invalid choice, me lord." << endl;
         }
         choice = main_menu();
     }
