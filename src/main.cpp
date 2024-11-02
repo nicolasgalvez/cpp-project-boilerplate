@@ -93,7 +93,7 @@ string search(map<string, tuple<int, string, string>> villagerData) {
     // } else {
     //     cout << "Villager not found." << endl;
     // }
-    
+
     // NOTE: This was throwing an exception, but I'm not sure why. I ran it again after a while and it worked.
     // Try lambda
     auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>>& item) {
@@ -223,7 +223,7 @@ string select_villager(map<string, tuple<int, string, string>> villagerData)
     display_village(villagerData);
 
     int choice;
-    cout << "Delete wisely --> ";
+    cout << "Choose wisely, me lud. --> ";
     cin >> choice;
     // validate choice
     if (choice < 1 || choice > villagerData.size())
@@ -250,13 +250,15 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
         return;
     }
     cout << "Villager list:" << endl;
+    // make a table with setw(15) for the first two items
+    cout << setw(7) << left << "Index" << setw(15) << left  << "Name" << setw(15) << "Species" << setw(15) << "Catchphrase" << endl;
     // display villager names, species, and catchphrases
     for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
          it != villagerData.end(); ++it)
     {
         // get iterator index, seems like maybe i++ would be more performant
         int index = distance(villagerData.begin(), it) + 1;
-        cout << index << ". " << it->first << ": " << get<1>(it->second) << " - " << get<2>(it->second) << endl;
+        cout << setw(7) << left << index.append("." << it->first << ": " << get<0>(it->second) << ": " << get<1>(it->second) << " - " << get<2>(it->second) << endl;
     }
     cout << endl;
 }
