@@ -18,6 +18,11 @@
             "problemMatcher": [
                 "$gcc"
             ],
+            "presentation": {
+                // "reveal": "silent",
+                "revealProblems": "onProblem",
+                "close": true
+            },
             "detail": "Build the main executable"
         },
         {
@@ -55,7 +60,7 @@
             },
             "problemMatcher": [],
             "detail": "Run the tests"
-        }
+        },
     ],
     "version": "2.0.0"
 }
