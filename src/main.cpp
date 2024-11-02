@@ -19,10 +19,11 @@ using namespace std;
 //     string species;
 //     string catchphrase;
 // };
-// int select_villager(set<villager> trip);
-// void delete_villager(set<villager> &trip);
-// void add_villager(set<villager> &trip, string[], string[]);
+// int select_villager(map<string, tuple<int, string, string>> villagerData);
+// void delete_villager(map<string, tuple<int, string, string>> villagerData);
+// void add_villager(map<string, tuple<int, string, string>> villagerData);
 void display_village(map<string, tuple<int, string, string>> villagerData);
+void burninate(string name );
 int main_menu();
 
 int main_menu()
@@ -45,7 +46,7 @@ int main_menu()
     cout << endl;
     return choice;
 }
-int select_villager(map<string, tuple<int, string, string>> villagerData)
+string select_villager(map<string, tuple<int, string, string>> villagerData)
 {
     // When you're asking the user to select a certain villager, display a submenu in this format, allowing the user to input an integer to reference the correct villager.
     display_village(villagerData);
@@ -59,13 +60,13 @@ int select_villager(map<string, tuple<int, string, string>> villagerData)
         cout << "Invalid choice. Try again." << endl;
         return select_villager(villagerData);
     }
-    // find the villager by key
+    // find the villager and return the key
     map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
     advance(it, choice - 1);
     cout << "Selected " << it->first << endl;
-    
 
-    return choice;
+
+    return it->first;
 }
 /**
  * Display the set of goats
@@ -78,14 +79,14 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
         return;
     }
     cout << "Goat list:" << endl;
-    int i = 1;
-    for (Goat g : villagerData)
-    {
-        cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
-    }
+    // int i = 1;
+    // for (Goat g : villagerData)
+    // {
+    //     cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
+    // }
 }
 
-void delete_villager(map<string, tuple<int, string, string>> villagerData, string key)
+void delete_villager(map<string, tuple<int, string, string>> villagerData)
 {
     if (villagerData.empty())
     {
@@ -93,14 +94,14 @@ void delete_villager(map<string, tuple<int, string, string>> villagerData, strin
         return;
     }
     // select villager
-    int choice = select_villager(villagerData);
+    string key = select_villager(villagerData);
     // delete villager
-    set<villager>::iterator it = trip.begin();
-    advance(it, choice - 1);
-    cout << "Deleted " << it->get_name() << endl;
-    trip.erase(it);
+    // get the name from the tuple
+    string name = get<2>(villagerData[key]);
+    villagerData.erase(key);
+    burninate(name);
 }
-void burninate( )
+void burninate(string name )
 {
     if (!trogdor.empty()) {
         displayAnsiArt(trogdor);
@@ -161,7 +162,7 @@ int main() {
         switch (choice)
         {
         case 1:
-            add_villager(villagerData, names, colors);
+            // add_villager(villagerData, names, colors);
             break;
         case 2:
             delete_villager(villagerData);
