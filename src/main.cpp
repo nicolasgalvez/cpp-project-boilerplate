@@ -15,6 +15,34 @@ using namespace std;
 //     string species;
 //     string catchphrase;
 // };
+int select_villager(set<villager> trip);
+void delete_villager(set<villager> &trip);
+void add_villager(set<villager> &trip, string[], string[]);
+void display_trip(set<villager> trip);
+int main_menu();
+
+int main_menu()
+{
+    int choice;
+    cout << endl
+         << "*** villager MANAGER 3001 ***" << endl
+         << "[1] Add a villager" << endl
+         << "[2] Delete a villager" << endl
+         << "[3] List villagers" << endl
+         << "[4] Quit" << endl
+         << "Choice --> ";
+    cin >> choice;
+    // validate choice, make sure it's between 1 and 4
+    if (choice < 1 || choice > 4)
+    {
+        cout << "Invalid choice. Try again." << endl;
+        return main_menu();
+    }
+    cout << endl;
+    return choice;
+}
+
+
 
 int main() {
     // declarations
