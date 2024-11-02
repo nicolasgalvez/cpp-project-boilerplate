@@ -33,6 +33,20 @@ string search(map<string, tuple<int, string, string>> villagerData);
 void burninate(string name);
 int main_menu();
 
+// https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
+string str_to_lower(const string& str)
+{
+    string result = "";
+
+    for (char ch : str) {
+        // Convert each character to lowercase using tolower
+        result += tolower(ch);
+    }
+
+    return result;
+}
+
+
 int main_menu()
 {
     int choice;
@@ -68,13 +82,16 @@ string search(map<string, tuple<int, string, string>> villagerData) {
     cout << "Enter the name of the villager you are searching for: ";
     // cin >> search;
     getline(cin >> ws, search);
-    // how to make case insensitive?
-    if (villagerData.find(search) != villagerData.end()) {
-        show_villager(villagerData, search);
-    } else {
-        cout << "Villager not found." << endl;
-    }
-    return search;
+    // how to make case insensitive? I remember I did it in a previous lab but not with search.
+    // if (villagerData.find(search) != villagerData.end()) {
+    //     show_villager(villagerData, search);
+    // } else {
+    //     cout << "Villager not found." << endl;
+    // }
+    // Try lambda
+    auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>>& item) {
+        return str_to_lower(item.first) == search;
+    });
 }
 
 void add_villager(map<string, tuple<int, string, string>> &villagerData)
