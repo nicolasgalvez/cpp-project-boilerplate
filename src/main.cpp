@@ -97,9 +97,9 @@ void delete_villager(map<string, tuple<int, string, string>> villagerData)
     string key = select_villager(villagerData);
     // delete villager
     // get the name from the tuple
-    string name = get<2>(villagerData[key]);
+    // string name = get<2>(villagerData[key]); // Whoops! This is the quote not the name
     villagerData.erase(key);
-    burninate(name);
+    burninate(key);
 }
 void burninate(string name )
 {
