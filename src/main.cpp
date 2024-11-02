@@ -22,7 +22,7 @@ using namespace std;
 // int select_villager(set<villager> trip);
 // void delete_villager(set<villager> &trip);
 // void add_villager(set<villager> &trip, string[], string[]);
-// void display_trip(set<villager> trip);
+void display_village(map<string, tuple<int, string, string>> villagerData);
 int main_menu();
 
 int main_menu()
@@ -45,17 +45,57 @@ int main_menu()
     cout << endl;
     return choice;
 }
-void delete_goat(set<Goat> &trip)
+int select_villager(map<string, tuple<int, string, string>> villagerData)
 {
-    if (trip.empty())
+    // When you're asking the user to select a certain villager, display a submenu in this format, allowing the user to input an integer to reference the correct villager.
+    display_village(villagerData);
+
+    int choice;
+    cout << "Delete wisely --> ";
+    cin >> choice;
+    // validate choice
+    if (choice < 1 || choice > villagerData.size())
     {
-        cout << "No goats to delete." << endl;
+        cout << "Invalid choice. Try again." << endl;
+        return select_villager(villagerData);
+    }
+    // find the villager by key
+    map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
+    advance(it, choice - 1);
+    cout << "Selected " << it->first << endl;
+    
+
+    return choice;
+}
+/**
+ * Display the set of goats
+ */
+void display_village(map<string, tuple<int, string, string>> villagerData)
+{
+    if (villagerData.empty())
+    {
+        cout << "No goats to display." << endl;
         return;
     }
-    // select goat
-    int choice = select_goat(trip);
-    // delete goat
-    set<Goat>::iterator it = trip.begin();
+    cout << "Goat list:" << endl;
+    int i = 1;
+    for (Goat g : villagerData)
+    {
+        cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
+    }
+}
+
+void delete_villager(map<string, tuple<int, string, string>> villagerData, string key)
+{
+    if (villagerData.empty())
+    {
+        cout << "Village is Empty." << endl;
+        return;
+    }
+    // select villager
+    int choice = select_villager(villagerData);
+    // delete villager
+    set<villager>::iterator it = trip.begin();
     advance(it, choice - 1);
     cout << "Deleted " << it->get_name() << endl;
     trip.erase(it);
@@ -109,17 +149,7 @@ int main() {
     // // delete an element
     // villagerColors.erase("Raymond");
 
-    // // search for an element using .find() to avoid errors
-    // string searchKey = "Audie";
-    // auto it = villagerColors.find(searchKey);
-    // if (it != villagerColors.end()) {  // the iterator points to beyond the end of the map
-    //                                    // if searchKey is not found
-    //     cout << "\nFound " << searchKey << "'s favorite colors: ";
-    //     for (auto color : it->second)  // range loop to traverse the value/vector
-    //         cout << color << " ";
-    //     cout << endl;
-    // } else
-    //     cout << endl << searchKey << " not found." << endl;
+  
 
     // // report size, clear, report size again to confirm map operations
     // cout << "\nSize before clear: " << villagerColors.size() << endl;
