@@ -39,7 +39,7 @@ int main_menu()
 
     cin >> choice;
     // validate choice, make sure it's between 1 and 4
-    if (choice < 1 || choice > 4)
+    if (choice < 1 || choice > 6)
     {
         cout << "Invalid choice. Try again." << endl;
         return main_menu();
@@ -77,8 +77,14 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData) {
     {
         cout << "Friendship level: ";
         cin >> friendshipLevel;
- 
-        if(friendshipLevel < 0 || friendshipLevel > 10)
+        // check for integer input
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Friendship level must be an integer. Try again." << endl;
+        }
+        else if(friendshipLevel < 0 || friendshipLevel > 10)
         {
             cout << "Friendship level must be between 0 and 10. Try again." << endl;
         }
@@ -236,7 +242,7 @@ int main()
     // villagerColors.clear();
     // cout << "Size after clear: " << villagerColors.size() << endl;
     int choice = main_menu();
-     display_village(villagerData);
+    display_village(villagerData);
     while (choice != 6)
     {
         switch (choice)
@@ -255,7 +261,7 @@ int main()
         default:
             cout << "Invalid choice, me lord." << endl;
         }
-         display_village(villagerData);
+        display_village(villagerData);
         choice = main_menu();
     }
     return 0;

@@ -15,7 +15,7 @@
             "MIMode": "lldb",
             "preLaunchTask": "Build Main",
             "targetArchitecture": "arm64",
-            "debug.console.closeOnEnd": false,
+            "debug.console.closeOnEnd": true,
             "logging": {
                 "moduleLoad": false,
                 "programOutput": true,
