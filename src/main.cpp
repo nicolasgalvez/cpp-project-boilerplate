@@ -10,9 +10,8 @@
 #include <vector>
 #include "ansi.h"
 
-
 using namespace std;
-    string trogdor = readAnsiFile("../src/trogdor.ans");
+string trogdor = readAnsiFile("../src/trogdor.ans");
 
 // struct Villager {
 //     int friendshipLevel; // 0-10
@@ -23,13 +22,12 @@ using namespace std;
 // void delete_villager(map<string, tuple<int, string, string>> villagerData);
 // void add_villager(map<string, tuple<int, string, string>> villagerData);
 void display_village(map<string, tuple<int, string, string>> villagerData);
-void burninate(string name );
+void burninate(string name);
 int main_menu();
 
 int main_menu()
 {
     int choice;
-
     cout << "Villager Manager 3000" << endl;
     cout << "1. Add Villager" << endl;
     cout << "2. Delete Villager" << endl;
@@ -68,7 +66,6 @@ string select_villager(map<string, tuple<int, string, string>> villagerData)
     advance(it, choice - 1);
     cout << "Selected " << it->first << endl;
 
-
     return it->first;
 }
 /**
@@ -76,17 +73,22 @@ string select_villager(map<string, tuple<int, string, string>> villagerData)
  */
 void display_village(map<string, tuple<int, string, string>> villagerData)
 {
+    cout << endl;
     if (villagerData.empty())
     {
         cout << "No goats to display." << endl;
         return;
     }
     cout << "Goat list:" << endl;
-    // int i = 1;
-    // for (Goat g : villagerData)
-    // {
-    //     cout << "[" << i++ << "] " << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
-    // }
+    // display villager names, species, and catchphrases
+    for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
+         it != villagerData.end(); ++it)
+    {   
+        // get iterator index, seems like maybe i++ would be more performant
+        int index = distance(villagerData.begin(), it) + 1;
+        cout << index << ". " << it->first << ": " << get<1>(it->second) << " - " << get<2>(it->second) << endl;
+    }
+    cout << endl;
 }
 
 void delete_villager(map<string, tuple<int, string, string>> villagerData)
@@ -104,17 +106,19 @@ void delete_villager(map<string, tuple<int, string, string>> villagerData)
     villagerData.erase(key);
     burninate(key);
 }
-void burninate(string name )
+void burninate(string name)
 {
-    if (!trogdor.empty()) {
+    if (!trogdor.empty())
+    {
         displayAnsiArt(trogdor);
     }
-    cout << name <<" was BURNINATED!!" << endl;
+    cout << name << " was BURNINATED!!" << endl;
 }
 
-int main() {
+int main()
+{
     // declarations
-    
+
     // Change the data we're storing to friendship level (0-10), the villager's species (string), and the villager's catchphrase (string)
     map<string, tuple<int, string, string>> villagerData; // Finally! PHP style associative arrays!
 
@@ -122,7 +126,7 @@ int main() {
     villagerData["Raymond"] = make_tuple(2, "Peasant", "Strange women lying in ponds distributing swords is no basis for a system of government.");
     villagerData["Max"] = make_tuple(2, "Wizard", "You rush a miracle man, you get rotten miracles.");
     villagerData["Valerie"] = make_tuple(2, "Witch", "I'm not a witch, I'm your wife! But after what you just said, I'm not even sure sure I want to be that anymore!");
-    villagerData["Woman"] = make_tuple(2, "Peasant", "Well, I didn't vote for you."); 
+    villagerData["Woman"] = make_tuple(2, "Peasant", "Well, I didn't vote for you.");
 
     // insert elements into the map
     // note how the right-hand side of the assignment are the vector elements
@@ -141,7 +145,7 @@ int main() {
 
     // // access the map using iterators
     // cout << "\nVillagers and their favorite colors (iterators):" << endl;
-    // for (map<string, vector<string>>::iterator it = villagerColors.begin(); 
+    // for (map<string, vector<string>>::iterator it = villagerColors.begin();
     //                                            it != villagerColors.end(); ++it) {
     //     cout << it->first << ": ";
     //     for (auto color : it->second) {
@@ -153,13 +157,12 @@ int main() {
     // // delete an element
     // villagerColors.erase("Raymond");
 
-  
-
     // // report size, clear, report size again to confirm map operations
     // cout << "\nSize before clear: " << villagerColors.size() << endl;
     // villagerColors.clear();
     // cout << "Size after clear: " << villagerColors.size() << endl;
     int choice = main_menu();
+     display_village(villagerData);
     while (choice != 4)
     {
         switch (choice)
@@ -176,6 +179,7 @@ int main() {
         default:
             cout << "Invalid choice, me lord." << endl;
         }
+         display_village(villagerData);
         choice = main_menu();
     }
     return 0;
