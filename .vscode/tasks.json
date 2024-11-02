@@ -61,6 +61,11 @@
             "problemMatcher": [],
             "detail": "Run the tests"
         },
+        {
+            "label": "Close Terminal",
+            "type": "shell",
+            "command": "killall -SIGTERM Terminal"
+        }
     ],
     "version": "2.0.0"
 }

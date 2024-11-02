@@ -11,9 +11,11 @@
             "cwd": "${workspaceFolder}/build",
             "environment": [],
             "externalConsole": true,
+            "postDebugTask": "Close Terminal",
             "MIMode": "lldb",
             "preLaunchTask": "Build Main",
             "targetArchitecture": "arm64",
+            "debug.console.closeOnEnd": false,
             "logging": {
                 "moduleLoad": false,
                 "programOutput": true,
