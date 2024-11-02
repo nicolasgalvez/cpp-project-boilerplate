@@ -56,15 +56,24 @@ int main_menu()
     cout << endl;
     return choice;
 }
+void show_villager(map<string, tuple<int, string, string>> villagerData, string key)
+{
+    cout << "Friendship Level: " << get<0>(villagerData[key]) << endl;
+    cout << "Species: " << get<1>(villagerData[key]) << endl;
+    cout << "Catchphrase: " << get<2>(villagerData[key]) << endl;
+}
 
 string search(map<string, tuple<int, string, string>> villagerData) {
     string search;
     cout << "Enter the name of the villager you are searching for: ";
-    cin >> search;
-    villagerData.find();
-    // if (villagerData.find(search) != villagerData.end()) {
-    //     cout << "Villager not found." << endl;
-    // }
+    // cin >> search;
+    getline(cin >> ws, search);
+    // how to make case insensitive?
+    if (villagerData.find(search) != villagerData.end()) {
+        show_villager(villagerData, search);
+    } else {
+        cout << "Villager not found." << endl;
+    }
     return search;
 }
 
@@ -92,8 +101,6 @@ void add_villager(map<string, tuple<int, string, string>> &villagerData)
             break;
         }
     }
-
-    // TODO: Move to another function
     while (true)
     {
         cout << "Friendship level: ";
