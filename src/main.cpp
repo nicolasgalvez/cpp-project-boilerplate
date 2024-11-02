@@ -29,13 +29,16 @@ int main_menu();
 int main_menu()
 {
     int choice;
-    cout << endl
-         << "*** villager MANAGER 3001 ***" << endl
-         << "[1] Add a villager" << endl
-         << "[2] Delete a villager" << endl
-         << "[3] List villagers" << endl
-         << "[4] Quit" << endl
-         << "Choice --> ";
+
+    cout << "Villager Manager 3000" << endl;
+    cout << "1. Add Villager" << endl;
+    cout << "2. Delete Villager" << endl;
+    cout << "3. Increase Friendship" << endl;
+    cout << "4. Decrease Friendship" << endl;
+    cout << "5. Search for Villager" << endl;
+    cout << "6. Exit" << endl;
+    cout << "Choice --> ";
+
     cin >> choice;
     // validate choice, make sure it's between 1 and 4
     if (choice < 1 || choice > 4)
