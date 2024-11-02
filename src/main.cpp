@@ -60,7 +60,7 @@ string select_villager(map<string, tuple<int, string, string>> villagerData)
         cout << "Invalid choice. Try again." << endl;
         return select_villager(villagerData);
     }
-    // find the villager and return the key
+    // Find the villager and return the key
     map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
     advance(it, choice - 1);
     cout << "Selected " << it->first << endl;
@@ -106,7 +106,7 @@ void burninate(string name )
     if (!trogdor.empty()) {
         displayAnsiArt(trogdor);
     }
-    cout << "BURNINATED!!" << endl;
+    cout << name <<" was BURNINATED!!" << endl;
 }
 
 int main() {
