@@ -62,7 +62,7 @@ int main_menu()
     cout << "5. Search for Villager" << endl;
     cout << "6. Exit" << endl;
     cout << "Choice --> ";
-
+    cin.clear();
     cin >> choice;
     // validate choice, make sure it's between 1 and 4
     if (choice < CHOICE_MIN || choice > CHOICE_MAX)
@@ -251,14 +251,17 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
     }
     cout << "Villager list:" << endl;
     // make a table with setw(15) for the first two items
-    cout << setw(7) << left << "Index" << setw(15) << left  << "Name" << setw(15) << "Species" << setw(15) << "Catchphrase" << endl;
+    cout << setw(7) << left << "Index" << setw(15) << left  << "Name" << setw(11) << "Friendship" << setw(8) << "Species" << setw(15) << "Catchphrase" << endl;
     // display villager names, species, and catchphrases
     for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
          it != villagerData.end(); ++it)
     {
         // get iterator index, seems like maybe i++ would be more performant
         int index = distance(villagerData.begin(), it) + 1;
-        cout << setw(7) << left << index.append("." << it->first << ": " << get<0>(it->second) << ": " << get<1>(it->second) << " - " << get<2>(it->second) << endl;
+        // cast int as string
+        string indexStr = to_string(index);
+        indexStr.append(". ");
+        cout << setw(7) << right << indexStr << left<<  setw(15) << it->first<<  setw(11) << left   << get<0>(it->second ) <<  setw(8)  << left << get<1>(it->second)<<  setw(15)  << left  << get<2>(it->second) << endl;
     }
     cout << endl;
 }
