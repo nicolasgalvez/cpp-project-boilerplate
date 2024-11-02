@@ -25,6 +25,7 @@ string trogdor = readAnsiFile("../src/trogdor.ans");
 // int select_villager(map<string, tuple<int, string, string>> villagerData);
 // void delete_villager(map<string, tuple<int, string, string>> villagerData);
 void add_villager(map<string, tuple<int, string, string>> &villagerData);
+void delete_villager(map<string, tuple<int, string, string>> &villagerData);
 void increase_friendship(map<string, tuple<int, string, string>> &villagerData);
 void decrease_friendship(map<string, tuple<int, string, string>> &villagerData);
 void display_village(map<string, tuple<int, string, string>> villagerData);
@@ -35,6 +36,7 @@ string str_to_lower(const string &str);
 int main_menu();
 
 // https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
+// looks like I can't get this to work right anyway.
 string str_to_lower(const string &str)
 {
     string result = "";
@@ -85,22 +87,24 @@ string search(map<string, tuple<int, string, string>> villagerData) {
     // cin >> search;
     getline(cin >> ws, search);
     // how to make case insensitive? I remember I did it in a previous lab but not with search.
-    if (villagerData.find(search) != villagerData.end()) {
-        cout <<  endl << "Found: "<< endl;
-        show_villager(villagerData, search);
-    } else {
-        cout << "Villager not found." << endl;
-    }
-    // Try lambda
-    // auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>>& item) {
-    //     return false; // str_to_lower(item.first) == search || false;
-    // });
-    // return key if found
-    // if (it != villagerData.end()) {
-    //     show_villager(villagerData, it->first);
-    //     return it->first;
+    // if (villagerData.find(search) != villagerData.end()) {
+    //     cout <<  endl << "Found: "<< endl;
+    //     show_villager(villagerData, search);
+    // } else {
+    //     cout << "Villager not found." << endl;
     // }
-    // cout << "Villager not found." << endl;
+    
+    // NOTE: This was throwing an exception, but I'm not sure why. I ran it again after a while and it worked.
+    // Try lambda
+    auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>>& item) {
+        return str_to_lower(item.first) == search || false;
+    });
+    // return key if found
+    if (it != villagerData.end()) {
+        show_villager(villagerData, it->first);
+        return it->first;
+    }
+    cout << "Villager not found." << endl;
     return "";
 }
 
@@ -245,7 +249,7 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
         cout << "No goats to display." << endl;
         return;
     }
-    cout << "Goat list:" << endl;
+    cout << "Villager list:" << endl;
     // display villager names, species, and catchphrases
     for (map<string, tuple<int, string, string>>::iterator it = villagerData.begin();
          it != villagerData.end(); ++it)
@@ -257,7 +261,7 @@ void display_village(map<string, tuple<int, string, string>> villagerData)
     cout << endl;
 }
 
-void delete_villager(map<string, tuple<int, string, string>> villagerData)
+void delete_villager(map<string, tuple<int, string, string>> &villagerData)
 {
     if (villagerData.empty())
     {
@@ -334,6 +338,7 @@ int main()
         {
         case 0:
             display_village(villagerData);
+            break;
         case 1:
             add_villager(villagerData);
             break;
@@ -346,15 +351,12 @@ int main()
         case 4:
             decrease_friendship(villagerData);
             break;
-            break;
         case 5:
             search(villagerData);
             break;
         default:
             cout << INVALID_CHOICE << endl;
         }
-        display_village(villagerData);
-        cout << endl;
         choice = main_menu();
     }
     return 0;
