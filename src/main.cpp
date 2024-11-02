@@ -31,10 +31,11 @@ void display_village(map<string, tuple<int, string, string>> villagerData);
 string select_villager(map<string, tuple<int, string, string>> villagerData);
 string search(map<string, tuple<int, string, string>> villagerData);
 void burninate(string name);
+string str_to_lower(const string &str);
 int main_menu();
 
 // https://www.geeksforgeeks.org/how-to-convert-std-string-to-lower-case-in-cpp/
-string str_to_lower(const string& str)
+string str_to_lower(const string &str)
 {
     string result = "";
 
@@ -72,6 +73,7 @@ int main_menu()
 }
 void show_villager(map<string, tuple<int, string, string>> villagerData, string key)
 {
+    cout << "Villager: " << key << endl;
     cout << "Friendship Level: " << get<0>(villagerData[key]) << endl;
     cout << "Species: " << get<1>(villagerData[key]) << endl;
     cout << "Catchphrase: " << get<2>(villagerData[key]) << endl;
@@ -83,15 +85,23 @@ string search(map<string, tuple<int, string, string>> villagerData) {
     // cin >> search;
     getline(cin >> ws, search);
     // how to make case insensitive? I remember I did it in a previous lab but not with search.
-    // if (villagerData.find(search) != villagerData.end()) {
-    //     show_villager(villagerData, search);
-    // } else {
-    //     cout << "Villager not found." << endl;
-    // }
+    if (villagerData.find(search) != villagerData.end()) {
+        cout <<  endl << "Found: "<< endl;
+        show_villager(villagerData, search);
+    } else {
+        cout << "Villager not found." << endl;
+    }
     // Try lambda
-    auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>>& item) {
-        return str_to_lower(item.first) == search;
-    });
+    // auto it = find_if(villagerData.begin(), villagerData.end(), [&search](const pair<string, tuple<int, string, string>>& item) {
+    //     return false; // str_to_lower(item.first) == search || false;
+    // });
+    // return key if found
+    // if (it != villagerData.end()) {
+    //     show_villager(villagerData, it->first);
+    //     return it->first;
+    // }
+    // cout << "Villager not found." << endl;
+    return "";
 }
 
 void add_villager(map<string, tuple<int, string, string>> &villagerData)
@@ -318,7 +328,6 @@ int main()
     // villagerColors.clear();
     // cout << "Size after clear: " << villagerColors.size() << endl;
     int choice = main_menu();
-    display_village(villagerData);
     while (choice != 6)
     {
         switch (choice)
@@ -345,6 +354,7 @@ int main()
             cout << INVALID_CHOICE << endl;
         }
         display_village(villagerData);
+        cout << endl;
         choice = main_menu();
     }
     return 0;
