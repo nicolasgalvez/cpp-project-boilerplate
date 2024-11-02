@@ -20,7 +20,7 @@ string trogdor = readAnsiFile("../src/trogdor.ans");
 // };
 // int select_villager(map<string, tuple<int, string, string>> villagerData);
 // void delete_villager(map<string, tuple<int, string, string>> villagerData);
-// void add_villager(map<string, tuple<int, string, string>> villagerData);
+void add_villager(map<string, tuple<int, string, string>> &villagerData);
 void display_village(map<string, tuple<int, string, string>> villagerData);
 void burninate(string name);
 int main_menu();
@@ -47,6 +47,27 @@ int main_menu()
     cout << endl;
     return choice;
 }
+
+void add_villager(map<string, tuple<int, string, string>> &villagerData) {
+    string name;
+    int friendshipLevel;
+    string species;
+    string catchphrase;
+    cout << "Villager name: ";
+    cin >> name;
+
+    // TODO: Move to another function
+    cout << "Friendship level: ";
+    cin >> friendshipLevel;
+    cout << "Species: ";
+    cin >> species;
+    cout << "Catchphrase: ";
+    cin >> catchphrase;
+    cout << name << " added." << endl;
+    villagerData[name] = make_tuple(friendshipLevel, species, catchphrase);
+
+}
+
 string select_villager(map<string, tuple<int, string, string>> villagerData)
 {
     // When you're asking the user to select a certain villager, display a submenu in this format, allowing the user to input an integer to reference the correct villager.
@@ -163,12 +184,14 @@ int main()
     // cout << "Size after clear: " << villagerColors.size() << endl;
     int choice = main_menu();
      display_village(villagerData);
-    while (choice != 4)
+    while (choice != 6)
     {
         switch (choice)
         {
+        case 0:
+            display_village(villagerData);
         case 1:
-            // add_villager(villagerData, names, colors);
+            add_villager(villagerData);
             break;
         case 2:
             delete_villager(villagerData);
