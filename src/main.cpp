@@ -71,11 +71,21 @@ int main_menu() {
     cout << "[1] Add a goat\n";
     cout << "[2] Delete a goat\n";
     cout << "[3] List goats\n";
-    cout << "[4] Quit\n";
+
+    cout << "[4] Clear" << endl;
+    cout << "[5] Copy" << endl;
+    cout << "[6] Erase" << endl;
+    cout << "[7] Reverse" << endl;
+    cout << "[8] Sort" << endl;
+    cout << "[9] Unique" << endl;
+    cout << "[10] Shuffle" << endl;
+    cout << "[11] Transform" << endl;
+
+    cout << "[0] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 4) {
+    while (choice < CHOICE_MIN || choice > CHOICE_MAX) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -168,6 +178,14 @@ void unique(list<Goat> &trip) {
     cout << "Imposter goats removed." << endl;
 
 }
+void shuffle(list<Goat> &trip) {
+    shuffle(scores.begin(), scores.end(),
+default_random_engine());
+}
+
+void transform(list<Goat> &trip) {
+    transform(scores.begin(), scores.end(), scores.begin(), [](int n) { return n - 1; });
+}
 
 
 int main() {
@@ -217,7 +235,35 @@ int main() {
                 cout << "Removing a goat.\n";
                 delete_goat(trip);
                 break;
-            case 3:    
+            case 3:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 4:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 5:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 5:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 6:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 7:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 8:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 9:
                 cout << "Displaying goat data.\n";
                 display_trip(trip);
                 break;
