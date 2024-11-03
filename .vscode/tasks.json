@@ -22,7 +22,7 @@
             "presentation": {
                 // "reveal": "silent",
                 "revealProblems": "onProblem",
-                // "close": true
+                "close": true
             },
             "detail": "Build the main executable"
         },

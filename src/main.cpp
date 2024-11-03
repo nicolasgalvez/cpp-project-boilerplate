@@ -193,7 +193,6 @@ int main_menu() {
     }
     return choice;
 }
-
 int main() {
     // Set up signal handler for terminal resize
     signal(SIGWINCH, handleSigwinch);
@@ -205,12 +204,20 @@ int main() {
     bool again;
 
     // read & populate arrays for names and colors
-    ifstream fin("names.txt");
+    ifstream fin("../src/names.txt");
+    if(!fin) {
+        cout << "Error opening file.\n";
+        return 1;
+    }
     string names[SZ_NAMES];
     int i = 0;
     while (fin >> names[i++]);
     fin.close();
-    ifstream fin1("colors.txt");
+    ifstream fin1("../src/colors.txt");
+        if(!fin1) {
+        cout << "Error opening file.\n";
+        return 1;
+    }
     string colors[SZ_COLORS];
     i = 0;
     while (fin1 >> colors[i++]);
@@ -246,8 +253,8 @@ int main() {
                 display_trip(trip);
                 break;
             case 4:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Clear\n";
+                clear(trip);
                 break;
             case 5:
                 cout << "Copying...\n";
