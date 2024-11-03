@@ -24,27 +24,29 @@ const int STRUCTURES = 3;
 const int ROWS = 4, COLS = 3, RUNS = 15;
 const int W1 = 10;
 
-    int results[ROWS][COLS];
+    float results[RUNS][ROWS][COLS];
     string cd;
     vector<string> data_vector;
     list<string> data_list;
     set<string> data_set;
 
 void test_read(int count) {
-
         // testing for READ operations
     for (int i = 0; i < STRUCTURES; i++) {
         ifstream fin("codes.txt");
         auto start = chrono::high_resolution_clock::now();
+        
         switch(i) {
             case 0: {  // read into a vector
                 while (fin >> cd) {
+                    
                     data_vector.push_back(cd);
+                    
                 }
                         
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[0][i] = duration.count();
+                results[count][0][i] = duration.count();
                 
                 break;
             }
@@ -53,7 +55,7 @@ void test_read(int count) {
                         data_list.push_back(cd);
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[0][i] = duration.count();
+                results[count][0][i] = duration.count();
                 break;
             }
             case 2: {  // read into a set
@@ -61,7 +63,7 @@ void test_read(int count) {
                         data_set.insert(cd);
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[0][i] = duration.count();
+                results[count][0][i] = duration.count();
                 break;
             }
         }
@@ -78,18 +80,18 @@ void test_sort(int count) {
                 sort(data_vector.begin(), data_vector.end());
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[1][i] = duration.count();
+                results[count][1][i] = duration.count();
                 break;
             }
             case 1: {  // sort a list
                 data_list.sort();
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[1][i] = duration.count();
+                results[count][1][i] = duration.count();
                 break;
             }
             case 2: {  // can't sort a set, so set to -1
-                results[1][i] = -1;
+                results[count][1][i] = -1;
                 break;
             }
         }
@@ -106,7 +108,7 @@ void test_insert(int count) {
                 data_vector.insert(data_vector.begin() + ind_v, "TESTCODE");
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[2][i] = duration.count();
+                results[count][2][i] = duration.count();
                 break;
             }
             case 1: {  // insert into a list
@@ -115,14 +117,14 @@ void test_insert(int count) {
                 data_list.insert(it, "TESTCODE");
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[2][i] = duration.count();
+                results[count][2][i] = duration.count();
                 break;
             }
             case 2: {  // insert into a set
                 data_set.insert("TESTCODE");
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[2][i] = duration.count();
+                results[count][2][i] = duration.count();
                 break;
             }
         }
@@ -130,19 +132,8 @@ void test_insert(int count) {
 
 }
 
-void test_delete() {
-    
-}
-
-int main() {
-
-    test_read(1);
-
-
-
- 
-
-    // testing for DELETE operations
+void test_delete(int count) {
+        // testing for DELETE operations
     for (int i = 0; i < STRUCTURES; i++) {
         // select a target value in the vector 
         int ind = data_vector.size() / 2;
@@ -164,23 +155,45 @@ int main() {
                 data_vector.erase(remove(data_vector.begin(), data_vector.end(), target_v));
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[3][i] = duration.count();
+                results[count][3][i] = duration.count();
                 break;
             }
             case 1: {  // delete by value from list
                 data_list.remove(target_l);
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[3][i] = duration.count();
+                results[count][3][i] = duration.count();
                 break;
             }
             case 2: {  // delete by value from set
                 data_set.erase(target_s);    
                 auto end = chrono::high_resolution_clock::now();
                 auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-                results[3][i] = duration.count();
+                results[count][3][i] = duration.count();
                 break;
             }
+        }
+    }
+}
+
+int main() {
+
+    // try running 15 times
+    for (int i = 0; i < RUNS; i++) {
+        test_read(i);
+        test_sort(i);
+        test_insert(i);
+        test_delete(i);
+    }
+
+// get the average of the 15 runs
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            int sum = 0;
+            for (int k = 0; k < RUNS; k++) {
+                sum += results[k][i][j];
+            }
+            results[0][i][j] = sum / RUNS; // set tje first item to the average
         }
     }
 
@@ -190,7 +203,7 @@ int main() {
     for (int i = 0; i < 4; i++) {
         cout << setw(W1) << labels[i];
         for (int j = 0; j < COLS; j++) 
-            cout << setw(W1) << results[i][j];
+            cout << setw(W1) << setprecision(3) << results[0][i][j];
         cout << endl;
     }
     
