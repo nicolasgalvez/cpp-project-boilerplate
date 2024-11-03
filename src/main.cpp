@@ -162,8 +162,8 @@ void sort(list<Goat> &trip) {
 
 void unique(list<Goat> &trip) {
     
-        auto newEnd = unique(scores.begin(), scores.end());
-    scores.erase(newEnd, scores.end());
+        auto newEnd = unique(trip.begin(), trip.end());
+    trip.erase(newEnd, trip.end());
 
     cout << "Imposter goats removed." << endl;
 
