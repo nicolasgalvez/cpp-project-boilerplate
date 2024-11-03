@@ -62,35 +62,6 @@ string str_to_lower(const string &str)
 
     return result;
 }
-/**
- * Display the main menu and return the user's choice
- */
-int main_menu() {
-
-    cout << "*** GOAT MANAGER 3001 ***\n";
-    cout << "[1] Add a goat\n";
-    cout << "[2] Delete a goat\n";
-    cout << "[3] List goats\n";
-
-    cout << "[4] Clear" << endl;
-    cout << "[5] Copy" << endl;
-    cout << "[6] Erase" << endl;
-    cout << "[7] Reverse" << endl;
-    cout << "[8] Sort" << endl;
-    cout << "[9] Unique" << endl;
-    cout << "[10] Shuffle" << endl;
-    cout << "[11] Transform" << endl;
-
-    cout << "[0] Quit\n";
-    cout << "Choice --> ";
-    int choice;
-    cin >> choice;
-    while (choice < CHOICE_MIN || choice > CHOICE_MAX) {
-        cout << "Invalid, again --> ";
-        cin >> choice;
-    }
-    return choice;
-}
 
 void delete_goat(list<Goat> &trip) {
     cout << "DELETE A GOAT\n";
@@ -151,9 +122,9 @@ void copy(list<Goat> &trip) {
     copy(trip.begin(), trip.end(), tempTrip.begin());
     cout << "Trip copied.\n";
     display_trip(tempTrip);
-    // append the copy to the original trip like $arr+=$brr in PHP
-    trip.splice(trip.end(), tempTrip);
-    display_trip(trip);
+    // // append the copy to the original trip like $arr+=$brr in PHP
+    // trip.splice(trip.end(), tempTrip);
+    // display_trip(trip);
 }
 
 void erase(list<Goat> &trip) {
@@ -184,15 +155,44 @@ void unique(list<Goat> &trip) {
     cout << "Imposter goats removed." << endl;
 
 }
-// void shuffle(list<Goat> &trip) {
-//     shuffle(scores.begin(), scores.end(),
-// default_random_engine());
-// }
+void shuffle(list<Goat> &trip) {
+    // shuffle(scores.begin(), scores.end(),
+    // default_random_engine());
+}
 
-// void transform(list<Goat> &trip) {
-//     transform(scores.begin(), scores.end(), scores.begin(), [](int n) { return n - 1; });
-// }
+void transform(list<Goat> &trip) {
+    // transform(scores.begin(), scores.end(), scores.begin(), [](int n) { return n - 1; });
+}
 
+/**
+ * Display the main menu and return the user's choice
+ */
+int main_menu() {
+
+    cout << "*** GOAT MANAGER 3001 ***\n";
+    cout << "[1] Add a goat\n";
+    cout << "[2] Delete a goat\n";
+    cout << "[3] List goats\n";
+
+    cout << "[4] Clear" << endl;
+    cout << "[5] Copy" << endl;
+    cout << "[6] Erase" << endl;
+    cout << "[7] Reverse" << endl;
+    cout << "[8] Sort" << endl;
+    cout << "[9] Unique" << endl;
+    cout << "[10] Shuffle" << endl;
+    cout << "[11] Transform" << endl;
+
+    cout << "[0] Quit\n";
+    cout << "Choice --> ";
+    int choice;
+    cin >> choice;
+    while (choice < CHOICE_MIN || choice > CHOICE_MAX) {
+        cout << "Invalid, again --> ";
+        cin >> choice;
+    }
+    return choice;
+}
 
 int main() {
     // Set up signal handler for terminal resize
@@ -250,32 +250,37 @@ int main() {
                 display_trip(trip);
                 break;
             case 5:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Copying...\n";
+                copy(trip);
                 break;
             case 6:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Erasing goat.\n";
+                erase(trip);
                 break;
             case 7:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Reversing goat order.\n";
+                reverse(trip);
+
                 break;
             case 8:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Sorting goats.\n";
+                sort(trip);
+
                 break;
             case 9:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Removing imposter goats.\n";
+                unique(trip);
+
                 break;
             case 10:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Shuffling Goats\n";
+                shuffle(trip);
                 break;
             case 11:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
+                cout << "Transforming goat data.\n";
+                transform(trip);
+
+
                 break;
             case 0:
                 break;
