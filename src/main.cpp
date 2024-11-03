@@ -125,7 +125,15 @@ int select_goat(list<Goat> trp) {
 }
 
 void clear(list<Goat> &trip) {
-    
+    // ask user for confirmation
+    cout << "Are you sure you want to clear the trip? (y/n) ";
+    char choice;
+    cin >> choice;
+    if (choice == 'y' || choice == 'Y') {
+        trip.clear();
+        cout << "Trip cleared.\n";
+    }
+
 }
 
 void copy(list<Goat> &trip) {
@@ -133,18 +141,31 @@ void copy(list<Goat> &trip) {
 }
 
 void erase(list<Goat> &trip) {
-
+    int index = select_goat(trip);
+    auto it = trip.begin();
+    advance(it, index-1);
+    trip.erase(it);
+    cout << "Goat erased. New trip size: " << trip.size() << endl;
 }
 
 void reverse(list<Goat> &trip) {
-
+    trip.reverse();
+    cout << "New Goat Order:" << endl;
+    display_trip(trip);
 }
 
 void sort(list<Goat> &trip) {
-
+    trip.sort();
+    cout << "Goats sorted." << endl;
+    display_trip(trip);
 }
 
 void unique(list<Goat> &trip) {
+    
+        auto newEnd = unique(scores.begin(), scores.end());
+    scores.erase(newEnd, scores.end());
+
+    cout << "Imposter goats removed." << endl;
 
 }
 
