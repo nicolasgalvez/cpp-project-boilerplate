@@ -161,11 +161,21 @@ void shuffle(list<Goat> &trip) {
     // shuffle vector
     shuffle(tripVec.begin(), tripVec.end(),
     default_random_engine());
+    // copy back to list
+    trip.assign(tripVec.begin(), tripVec.end());
     display_trip(trip);
 }
 
 void transform(list<Goat> &trip) {
-    // transform(scores.begin(), scores.end(), scores.begin(), [](int n) { return n - 1; });
+    transform(trip.begin(), trip.end(), trip.begin(), [](Goat goat) { 
+        // there is a 1 in 4 chance that the goat is a thing
+        if (rand() % 4 == 0) {
+            goat.set_name(goat.get_name() + " is a THING!!!");
+            goat.set_color("Gross");
+            goat.set_age(1000);
+        }
+        return goat;
+    });
     display_trip(trip);
 }
 
