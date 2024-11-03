@@ -16,7 +16,7 @@
 
 using namespace std;
 const int SZ_NAMES = 200, SZ_COLORS = 25;
-const int CHOICE_MIN = 0, CHOICE_MAX = 6, FREINDSHIP_MIN = 0, FRIENDSHIP_MAX = 10;
+const int CHOICE_MIN = 0, CHOICE_MAX = 11, FREINDSHIP_MIN = 0, FRIENDSHIP_MAX = 10;
 const string INVALID_CHOICE = "Invalid choice, me lord.";
 
 
@@ -119,12 +119,10 @@ void clear(list<Goat> &trip) {
 
 void copy(list<Goat> &trip) {
     list<Goat> tempTrip;
-    copy(trip.begin(), trip.end(), tempTrip.begin());
-    cout << "Trip copied.\n";
-    display_trip(tempTrip);
-    // // append the copy to the original trip like $arr+=$brr in PHP
-    // trip.splice(trip.end(), tempTrip);
-    // display_trip(trip);
+    // copy using copy stl
+    copy(trip.begin(), trip.end(), back_inserter(tempTrip));
+    // append the copy to the original
+    trip.insert(trip.end(), tempTrip.begin(), tempTrip.end()); 
 }
 
 void erase(list<Goat> &trip) {
