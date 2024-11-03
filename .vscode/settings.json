@@ -35,7 +35,8 @@
         "random": "cpp",
         "__locale": "cpp",
         "optional": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "thread": "cpp"
     },
     "C_Cpp.default.compilerPath": "/Library/Developer/CommandLineTools/usr/bin/clang++"
 }
