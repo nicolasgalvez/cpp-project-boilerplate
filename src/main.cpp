@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iomanip>
 #include <list>
+#include <random>
 #include "Goat.h"
 
 using namespace std;
@@ -146,20 +147,26 @@ void sort(list<Goat> &trip) {
 }
 
 void unique(list<Goat> &trip) {
-    
+    display_trip(trip);
+    sort(trip); // doesn't work unless sorted
     auto newEnd = unique(trip.begin(), trip.end());
     trip.erase(newEnd, trip.end());
-
-    cout << "Imposter goats removed." << endl;
+    display_trip(trip);
+    cout << "Childs: So, how do we know who's a goat? If I was an imitation, a perfect imitation, how would you know if it was really me?" << endl;
 
 }
 void shuffle(list<Goat> &trip) {
-    // shuffle(scores.begin(), scores.end(),
-    // default_random_engine());
+    // copy to vector
+    vector<Goat> tripVec(trip.begin(), trip.end());
+    // shuffle vector
+    shuffle(tripVec.begin(), tripVec.end(),
+    default_random_engine());
+    display_trip(trip);
 }
 
 void transform(list<Goat> &trip) {
     // transform(scores.begin(), scores.end(), scores.begin(), [](int n) { return n - 1; });
+    display_trip(trip);
 }
 
 /**
@@ -234,7 +241,7 @@ int main() {
         trip.push_back(tmp);
     }
     
-    // Goat Manager 3001 Engine
+    // Goat Manager 30x6 Engine
     int sel = main_menu();
     while (sel != 0) {
         switch (sel) {
@@ -284,8 +291,6 @@ int main() {
             case 11:
                 cout << "Transforming goat data.\n";
                 transform(trip);
-
-
                 break;
             case 0:
                 break;
@@ -293,6 +298,7 @@ int main() {
                 cout << "Invalid selection.\n";
                 break;
         }
+        cout << endl;
         sel = main_menu();
     }
     

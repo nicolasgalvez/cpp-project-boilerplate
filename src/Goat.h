@@ -52,7 +52,17 @@ public:
     }
     bool operator==(const Goat &other) const
     {
-        return (name == other.name) && (age == other.age) && (color == other.color);
+       return (name == other.name) && (age == other.age) && (color == other.color);
+    }
+    // Add shuffle operator
+    bool operator!=(const Goat &other) const
+    {
+        return !(*this == other);
+    }
+    friend ostream &operator<<(ostream &os, const Goat &g)
+    {
+        os << g.name << " (" << g.age << ", " << g.color << ")";
+        return os;
     }
 };
 
