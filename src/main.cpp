@@ -17,8 +17,7 @@
 
 using namespace std;
 const int SZ_NAMES = 200, SZ_COLORS = 25;
-const int CHOICE_MIN = 0, CHOICE_MAX = 11, FREINDSHIP_MIN = 0, FRIENDSHIP_MAX = 10;
-const string INVALID_CHOICE = "Invalid choice, me lord.";
+const int CHOICE_MIN = 0, CHOICE_MAX = 11;
 
 // Goated prototypes
 int select_goat(list<Goat> trip);
@@ -164,16 +163,23 @@ void shuffle(list<Goat> &trip)
 
 void transform(list<Goat> &trip)
 {
-    transform(trip.begin(), trip.end(), trip.begin(), [](Goat goat)
+    bool thing = false;
+    transform(trip.begin(), trip.end(), trip.begin(), [&thing](Goat goat)
               { 
         // there is a 1 in 4 chance that the goat is a thing
         if (rand() % 4 == 0) {
             goat.set_name(goat.get_name() + " is a THING!!!");
             goat.set_color("Gross");
             goat.set_age(1000);
+            thing = true;
         }
         return goat; });
     display_trip(trip);
+    if (thing)
+    {
+        string thing = readAnsiFile("../src/thing.ans");
+        displayAnsiArt(thing);
+    }
 }
 
 /**
@@ -211,6 +217,7 @@ int main()
 {
     // Set up signal handler for terminal resize
     signal(SIGWINCH, handleSigwinch);
+
     // show goat
     string goatboy = readAnsiFile("../src/trogdor.ans");
     displayAnsiArt(goatboy);
