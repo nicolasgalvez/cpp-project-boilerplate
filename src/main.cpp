@@ -147,7 +147,13 @@ void clear(list<Goat> &trip) {
 }
 
 void copy(list<Goat> &trip) {
-
+    list<Goat> tempTrip;
+    copy(trip.begin(), trip.end(), tempTrip.begin());
+    cout << "Trip copied.\n";
+    display_trip(tempTrip);
+    // append the copy to the original trip like $arr+=$brr in PHP
+    trip.splice(trip.end(), tempTrip);
+    display_trip(trip);
 }
 
 void erase(list<Goat> &trip) {
@@ -172,20 +178,20 @@ void sort(list<Goat> &trip) {
 
 void unique(list<Goat> &trip) {
     
-        auto newEnd = unique(trip.begin(), trip.end());
+    auto newEnd = unique(trip.begin(), trip.end());
     trip.erase(newEnd, trip.end());
 
     cout << "Imposter goats removed." << endl;
 
 }
-void shuffle(list<Goat> &trip) {
-    shuffle(scores.begin(), scores.end(),
-default_random_engine());
-}
+// void shuffle(list<Goat> &trip) {
+//     shuffle(scores.begin(), scores.end(),
+// default_random_engine());
+// }
 
-void transform(list<Goat> &trip) {
-    transform(scores.begin(), scores.end(), scores.begin(), [](int n) { return n - 1; });
-}
+// void transform(list<Goat> &trip) {
+//     transform(scores.begin(), scores.end(), scores.begin(), [](int n) { return n - 1; });
+// }
 
 
 int main() {
@@ -225,7 +231,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 4) {
+    while (sel != 0) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -240,10 +246,6 @@ int main() {
                 display_trip(trip);
                 break;
             case 4:
-                cout << "Displaying goat data.\n";
-                display_trip(trip);
-                break;
-            case 5:
                 cout << "Displaying goat data.\n";
                 display_trip(trip);
                 break;
@@ -266,6 +268,16 @@ int main() {
             case 9:
                 cout << "Displaying goat data.\n";
                 display_trip(trip);
+                break;
+            case 10:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 11:
+                cout << "Displaying goat data.\n";
+                display_trip(trip);
+                break;
+            case 0:
                 break;
             default:
                 cout << "Invalid selection.\n";
